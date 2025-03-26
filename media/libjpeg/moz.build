@@ -7,6 +7,10 @@
 with Files("**"):
     BUG_COMPONENT = ("Core", "Graphics: ImageLib")
 
+SharedLibrary('jpeg')
+
+SYMBOLS_FILE = "libjpeg.symbols"
+
 # Not technically necessary, but set for consistency with the 12/16-bit ones.
 DEFINES['BITS_IN_JSAMPLE'] = 8
 
@@ -340,5 +344,4 @@ if CONFIG['TARGET_CPU'] == 'x86_64':
 # We allow warnings for third-party code that can be updated from upstream.
 AllowCompilerWarnings()
 
-FINAL_LIBRARY = 'xul'
-
+#FINAL_LIBRARY = 'xul'

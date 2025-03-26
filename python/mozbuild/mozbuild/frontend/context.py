@@ -571,7 +571,8 @@ class CompileFlags(TargetCompileFlags):
             ("LOCAL_INCLUDES", None, ("CXXFLAGS", "CFLAGS")),
             (
                 "EXTRA_INCLUDES",
-                ["-I%s/dist/include" % context.config.topobjdir],
+                # IA2: Find a way to not hardcode the full path to the IA2 include dir.
+                ["-I%s/dist/include" % context.config.topobjdir, "-I/home/legare/IA2-Phase2/runtime/libia2/include"],
                 ("CXXFLAGS", "CFLAGS"),
             ),
             (

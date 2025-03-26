@@ -150,6 +150,11 @@ USE_LIBS += [
     "js",
 ]
 
+# add separate [compartmentalized] libjpeg
+USE_LIBS += [
+    "jpeg",
+]
+
 USE_LIBS += [
     "gkcodecs",
     "lgpllibs",

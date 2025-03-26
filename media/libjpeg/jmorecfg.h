@@ -162,7 +162,7 @@ typedef unsigned int JDIMENSION;
 /* a function referenced thru EXTERNs: */
 #define GLOBAL(type)            type
 /* a reference to a GLOBAL function: */
-#define EXTERN(type)            extern type
+#define EXTERN(type)            __attribute__((visibility("default"))) extern type
 
 
 /* Originally, this macro was used as a way of defining function prototypes
