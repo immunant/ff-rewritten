@@ -164,7 +164,7 @@ nsJPEGEncoder::InitFromData(const uint8_t* aData,
   // This must be done before the call to create_compress
   encoder_error_mgr errmgr;
   cinfo.err = jpeg_std_error(&errmgr.pub);
-  errmgr.pub.error_exit = nsJPEGEncoderInternal::errorExit;
+  errmgr.pub.error_exit = IA2_FN(errorExit)::errorExit;
   // Establish the setjmp return context for my_error_exit to use.
   if (setjmp(errmgr.setjmp_buffer)) {
     // If we get here, the JPEG code has signaled an error.
@@ -191,9 +191,9 @@ nsJPEGEncoder::InitFromData(const uint8_t* aData,
 
   // set up the destination manager
   jpeg_destination_mgr destmgr;
-  destmgr.init_destination = nsJPEGEncoderInternal::initDestination;
-  destmgr.empty_output_buffer = nsJPEGEncoderInternal::emptyOutputBuffer;
-  destmgr.term_destination = nsJPEGEncoderInternal::termDestination;
+  destmgr.init_destination = IA2_FN(initDestination)::initDestination;
+  destmgr.empty_output_buffer = IA2_FN(emptyOutputBuffer)::emptyOutputBuffer;
+  destmgr.term_destination = IA2_FN(termDestination)::termDestination;
   cinfo.dest = &destmgr;
   cinfo.client_data = this;
 
@@ -298,7 +298,7 @@ nsJPEGEncoder::StreamStatus() {
 
 NS_IMETHODIMP
 nsJPEGEncoder::Read(char* aBuf, uint32_t aCount, uint32_t* _retval) {
-  return ReadSegments(NS_CopySegmentToBuffer, aBuf, aCount, _retval);
+  return ReadSegments(IA2_FN(NS_CopySegmentToBuffer), aBuf, aCount, _retval);
 }
 
 NS_IMETHODIMP

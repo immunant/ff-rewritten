@@ -15,10 +15,7 @@
 
 
 /* Pointer to routine to upsample a single component */
-typedef void (*upsample1_ptr) (j_decompress_ptr cinfo,
-                               jpeg_component_info *compptr,
-                               _JSAMPARRAY input_data,
-                               _JSAMPARRAY *output_data_ptr);
+typedef struct IA2_fnptr__ZTSFvP22jpeg_decompress_structP19jpeg_component_infoPPhPS4_E upsample1_ptr;
 
 /* Private subobject */
 

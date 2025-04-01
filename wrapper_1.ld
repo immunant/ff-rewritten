@@ -1,0 +1,5 @@
+--wrap=jpeg12_fdct_ifast
+--wrap=jpeg12_fdct_islow
+--wrap=jpeg_fdct_ifast
+--wrap=jpeg_fdct_islow
+--wrap=ia2_compartment_destructor_1

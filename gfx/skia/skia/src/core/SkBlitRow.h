@@ -24,7 +24,7 @@ public:
         @param count number of colors to blend
         @param alpha global alpha to be applied to all src colors
      */
-    typedef void (*Proc32)(uint32_t dst[], const SkPMColor src[], int count, U8CPU alpha);
+    typedef struct IA2_fnptr__ZTSFvPjPKjijE Proc32;
 
     static Proc32 Factory32(unsigned flags32);
 
@@ -35,9 +35,8 @@ public:
 };
 
 namespace SkOpts {
-    extern void (*blit_row_color32)(SkPMColor* dst, int count, SkPMColor color);
-    extern void (*blit_row_s32a_opaque)(SkPMColor* dst, const SkPMColor* src,
-                                        int count, U8CPU alpha);
+    struct IA2_fnptr__ZTSFvPjijE blit_row_color32;
+    struct IA2_fnptr__ZTSFvPjPKjijE blit_row_s32a_opaque;
 
     void Init_BlitRow();
 }  // namespace SkOpts

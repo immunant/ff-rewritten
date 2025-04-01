@@ -77,17 +77,17 @@ MJpegDecoder::MJpegDecoder()
   error_mgr_ = new SetJmpErrorMgr;
   decompress_struct_->err = jpeg_std_error(&error_mgr_->base);
   // Override standard exit()-based error handler.
-  error_mgr_->base.error_exit = &ErrorHandler;
+  error_mgr_->base.error_exit = &IA2_FN(ErrorHandler);
 #ifndef DEBUG_MJPEG
-  error_mgr_->base.output_message = &OutputHandler;
+  error_mgr_->base.output_message = &IA2_FN(OutputHandler);
 #endif
 #endif
   decompress_struct_->client_data = NULL;
-  source_mgr_->init_source = &init_source;
-  source_mgr_->fill_input_buffer = &fill_input_buffer;
-  source_mgr_->skip_input_data = &skip_input_data;
-  source_mgr_->resync_to_restart = &jpeg_resync_to_restart;
-  source_mgr_->term_source = &term_source;
+  source_mgr_->init_source = &IA2_FN(init_source);
+  source_mgr_->fill_input_buffer = &IA2_FN(fill_input_buffer);
+  source_mgr_->skip_input_data = &IA2_FN(skip_input_data);
+  source_mgr_->resync_to_restart = &IA2_FN(jpeg_resync_to_restart);
+  source_mgr_->term_source = &IA2_FN(term_source);
   jpeg_create_decompress(decompress_struct_);
   decompress_struct_->src = source_mgr_;
   buf_vec_.buffers = &buf_;
@@ -581,3 +581,5 @@ JpegSubsamplingType MJpegDecoder::JpegSubsamplingTypeHelper(
 
 }  // namespace libyuv
 #endif  // HAVE_JPEG
+IA2_DEFINE_WRAPPER(ErrorHandler)
+IA2_DEFINE_WRAPPER(OutputHandler)

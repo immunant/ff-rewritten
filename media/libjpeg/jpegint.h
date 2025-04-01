@@ -89,9 +89,9 @@ typedef size_t JUINTPTR;
 
 /* Master control module */
 struct jpeg_comp_master {
-  void (*prepare_for_pass) (j_compress_ptr cinfo);
-  void (*pass_startup) (j_compress_ptr cinfo);
-  void (*finish_pass) (j_compress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE prepare_for_pass;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE pass_startup;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE finish_pass;
 
   /* State variables made visible to other modules */
   boolean call_pass_startup;    /* True if pass_startup must be called */
@@ -101,38 +101,21 @@ struct jpeg_comp_master {
 
 /* Main buffer control (downsampled-data buffer) */
 struct jpeg_c_main_controller {
-  void (*start_pass) (j_compress_ptr cinfo, J_BUF_MODE pass_mode);
-  void (*process_data) (j_compress_ptr cinfo, JSAMPARRAY input_buf,
-                        JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail);
-  void (*process_data_12) (j_compress_ptr cinfo, J12SAMPARRAY input_buf,
-                           JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_struct10J_BUF_MODEE start_pass;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPhPjjE process_data;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPsPjjE process_data_12;
 #ifdef C_LOSSLESS_SUPPORTED
-  void (*process_data_16) (j_compress_ptr cinfo, J16SAMPARRAY input_buf,
-                           JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPtPjjE process_data_16;
 #endif
 };
 
 /* Compression preprocessing (downsampling input buffer control) */
 struct jpeg_c_prep_controller {
-  void (*start_pass) (j_compress_ptr cinfo, J_BUF_MODE pass_mode);
-  void (*pre_process_data) (j_compress_ptr cinfo, JSAMPARRAY input_buf,
-                            JDIMENSION *in_row_ctr, JDIMENSION in_rows_avail,
-                            JSAMPIMAGE output_buf,
-                            JDIMENSION *out_row_group_ctr,
-                            JDIMENSION out_row_groups_avail);
-  void (*pre_process_data_12) (j_compress_ptr cinfo, J12SAMPARRAY input_buf,
-                               JDIMENSION *in_row_ctr,
-                               JDIMENSION in_rows_avail,
-                               J12SAMPIMAGE output_buf,
-                               JDIMENSION *out_row_group_ctr,
-                               JDIMENSION out_row_groups_avail);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_struct10J_BUF_MODEE start_pass;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPhPjjPS2_S3_jE pre_process_data;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPsPjjPS2_S3_jE pre_process_data_12;
 #ifdef C_LOSSLESS_SUPPORTED
-  void (*pre_process_data_16) (j_compress_ptr cinfo, J16SAMPARRAY input_buf,
-                               JDIMENSION *in_row_ctr,
-                               JDIMENSION in_rows_avail,
-                               J16SAMPIMAGE output_buf,
-                               JDIMENSION *out_row_group_ctr,
-                               JDIMENSION out_row_groups_avail);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPtPjjPS2_S3_jE pre_process_data_16;
 #endif
 };
 
@@ -140,43 +123,31 @@ struct jpeg_c_prep_controller {
  * Lossless mode: Difference buffer control
  */
 struct jpeg_c_coef_controller {
-  void (*start_pass) (j_compress_ptr cinfo, J_BUF_MODE pass_mode);
-  boolean (*compress_data) (j_compress_ptr cinfo, JSAMPIMAGE input_buf);
-  boolean (*compress_data_12) (j_compress_ptr cinfo, J12SAMPIMAGE input_buf);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_struct10J_BUF_MODEE start_pass;
+  struct IA2_fnptr__ZTSFiP20jpeg_compress_structPPPhE compress_data;
+  struct IA2_fnptr__ZTSFiP20jpeg_compress_structPPPsE compress_data_12;
 #ifdef C_LOSSLESS_SUPPORTED
-  boolean (*compress_data_16) (j_compress_ptr cinfo, J16SAMPIMAGE input_buf);
+  struct IA2_fnptr__ZTSFiP20jpeg_compress_structPPPtE compress_data_16;
 #endif
 };
 
 /* Colorspace conversion */
 struct jpeg_color_converter {
-  void (*start_pass) (j_compress_ptr cinfo);
-  void (*color_convert) (j_compress_ptr cinfo, JSAMPARRAY input_buf,
-                         JSAMPIMAGE output_buf, JDIMENSION output_row,
-                         int num_rows);
-  void (*color_convert_12) (j_compress_ptr cinfo, J12SAMPARRAY input_buf,
-                            J12SAMPIMAGE output_buf, JDIMENSION output_row,
-                            int num_rows);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE start_pass;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPhPS2_jiE color_convert;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPsPS2_jiE color_convert_12;
 #ifdef C_LOSSLESS_SUPPORTED
-  void (*color_convert_16) (j_compress_ptr cinfo, J16SAMPARRAY input_buf,
-                            J16SAMPIMAGE output_buf, JDIMENSION output_row,
-                            int num_rows);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPtPS2_jiE color_convert_16;
 #endif
 };
 
 /* Downsampling */
 struct jpeg_downsampler {
-  void (*start_pass) (j_compress_ptr cinfo);
-  void (*downsample) (j_compress_ptr cinfo, JSAMPIMAGE input_buf,
-                      JDIMENSION in_row_index, JSAMPIMAGE output_buf,
-                      JDIMENSION out_row_group_index);
-  void (*downsample_12) (j_compress_ptr cinfo, J12SAMPIMAGE input_buf,
-                         JDIMENSION in_row_index, J12SAMPIMAGE output_buf,
-                         JDIMENSION out_row_group_index);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE start_pass;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPPhjS3_jE downsample;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPPsjS3_jE downsample_12;
 #ifdef C_LOSSLESS_SUPPORTED
-  void (*downsample_16) (j_compress_ptr cinfo, J16SAMPIMAGE input_buf,
-                         JDIMENSION in_row_index, J16SAMPIMAGE output_buf,
-                         JDIMENSION out_row_group_index);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPPPtjS3_jE downsample_16;
 #endif
 
   boolean need_context_rows;    /* TRUE if need rows above & below */
@@ -186,46 +157,37 @@ struct jpeg_downsampler {
  * Lossless mode: Prediction, sample differencing, and point transform
  */
 struct jpeg_forward_dct {
-  void (*start_pass) (j_compress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE start_pass;
 
   /* Lossy mode */
   /* perhaps this should be an array??? */
-  void (*forward_DCT) (j_compress_ptr cinfo, jpeg_component_info *compptr,
-                       JSAMPARRAY sample_data, JBLOCKROW coef_blocks,
-                       JDIMENSION start_row, JDIMENSION start_col,
-                       JDIMENSION num_blocks);
-  void (*forward_DCT_12) (j_compress_ptr cinfo, jpeg_component_info *compptr,
-                          J12SAMPARRAY sample_data, JBLOCKROW coef_blocks,
-                          JDIMENSION start_row, JDIMENSION start_col,
-                          JDIMENSION num_blocks);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structP19jpeg_component_infoPPhPA64_sjjjE forward_DCT;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structP19jpeg_component_infoPPsPA64_sjjjE forward_DCT_12;
 };
 
 /* Entropy encoding */
 struct jpeg_entropy_encoder {
-  void (*start_pass) (j_compress_ptr cinfo, boolean gather_statistics);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structiE start_pass;
 
   /* Lossy mode */
-  boolean (*encode_mcu) (j_compress_ptr cinfo, JBLOCKROW *MCU_data);
+  struct IA2_fnptr__ZTSFiP20jpeg_compress_structPPA64_sE encode_mcu;
   /* Lossless mode */
-  JDIMENSION (*encode_mcus) (j_compress_ptr cinfo, JDIFFIMAGE diff_buf,
-                             JDIMENSION MCU_row_num, JDIMENSION MCU_col_num,
-                             JDIMENSION nMCU);
+  struct IA2_fnptr__ZTSFjP20jpeg_compress_structPPPijjjE encode_mcus;
 
-  void (*finish_pass) (j_compress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE finish_pass;
 };
 
 /* Marker writing */
 struct jpeg_marker_writer {
-  void (*write_file_header) (j_compress_ptr cinfo);
-  void (*write_frame_header) (j_compress_ptr cinfo);
-  void (*write_scan_header) (j_compress_ptr cinfo);
-  void (*write_file_trailer) (j_compress_ptr cinfo);
-  void (*write_tables_only) (j_compress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE write_file_header;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE write_frame_header;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE write_scan_header;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE write_file_trailer;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structE write_tables_only;
   /* These routines are exported to allow insertion of extra markers */
   /* Probably only COM and APPn markers should be written this way */
-  void (*write_marker_header) (j_compress_ptr cinfo, int marker,
-                               unsigned int datalen);
-  void (*write_marker_byte) (j_compress_ptr cinfo, int val);
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structijE write_marker_header;
+  struct IA2_fnptr__ZTSFvP20jpeg_compress_structiE write_marker_byte;
 };
 
 
@@ -233,8 +195,8 @@ struct jpeg_marker_writer {
 
 /* Master control module */
 struct jpeg_decomp_master {
-  void (*prepare_for_output_pass) (j_decompress_ptr cinfo);
-  void (*finish_output_pass) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE prepare_for_output_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE finish_output_pass;
 
   /* State variables made visible to other modules */
   boolean is_dummy_pass;        /* True during 1st pass for 2-pass quant */
@@ -256,10 +218,10 @@ struct jpeg_decomp_master {
 
 /* Input control module */
 struct jpeg_input_controller {
-  int (*consume_input) (j_decompress_ptr cinfo);
-  void (*reset_input_controller) (j_decompress_ptr cinfo);
-  void (*start_input_pass) (j_decompress_ptr cinfo);
-  void (*finish_input_pass) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE consume_input;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE reset_input_controller;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_input_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE finish_input_pass;
 
   /* State variables made visible to other modules */
   boolean has_multiple_scans;   /* True if file has multiple scans */
@@ -268,14 +230,11 @@ struct jpeg_input_controller {
 
 /* Main buffer control (downsampled-data buffer) */
 struct jpeg_d_main_controller {
-  void (*start_pass) (j_decompress_ptr cinfo, J_BUF_MODE pass_mode);
-  void (*process_data) (j_decompress_ptr cinfo, JSAMPARRAY output_buf,
-                        JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
-  void (*process_data_12) (j_decompress_ptr cinfo, J12SAMPARRAY output_buf,
-                           JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_struct10J_BUF_MODEE start_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPhPjjE process_data;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPsPjjE process_data_12;
 #ifdef D_LOSSLESS_SUPPORTED
-  void (*process_data_16) (j_decompress_ptr cinfo, J16SAMPARRAY output_buf,
-                           JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPtPjjE process_data_16;
 #endif
 };
 
@@ -283,13 +242,13 @@ struct jpeg_d_main_controller {
  * Lossless mode: Difference buffer control
  */
 struct jpeg_d_coef_controller {
-  void (*start_input_pass) (j_decompress_ptr cinfo);
-  int (*consume_data) (j_decompress_ptr cinfo);
-  void (*start_output_pass) (j_decompress_ptr cinfo);
-  int (*decompress_data) (j_decompress_ptr cinfo, JSAMPIMAGE output_buf);
-  int (*decompress_data_12) (j_decompress_ptr cinfo, J12SAMPIMAGE output_buf);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_input_pass;
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE consume_data;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_output_pass;
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structPPPhE decompress_data;
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structPPPsE decompress_data_12;
 #ifdef D_LOSSLESS_SUPPORTED
-  int (*decompress_data_16) (j_decompress_ptr cinfo, J16SAMPIMAGE output_buf);
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structPPPtE decompress_data_16;
 #endif
 
   /* These variables keep track of the current location of the input side. */
@@ -307,36 +266,22 @@ struct jpeg_d_coef_controller {
 
 /* Decompression postprocessing (color quantization buffer control) */
 struct jpeg_d_post_controller {
-  void (*start_pass) (j_decompress_ptr cinfo, J_BUF_MODE pass_mode);
-  void (*post_process_data) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf,
-                             JDIMENSION *in_row_group_ctr,
-                             JDIMENSION in_row_groups_avail,
-                             JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-                             JDIMENSION out_rows_avail);
-  void (*post_process_data_12) (j_decompress_ptr cinfo, J12SAMPIMAGE input_buf,
-                                JDIMENSION *in_row_group_ctr,
-                                JDIMENSION in_row_groups_avail,
-                                J12SAMPARRAY output_buf,
-                                JDIMENSION *out_row_ctr,
-                                JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_struct10J_BUF_MODEE start_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPhPjjS2_S4_jE post_process_data;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPsPjjS2_S4_jE post_process_data_12;
 #ifdef D_LOSSLESS_SUPPORTED
-  void (*post_process_data_16) (j_decompress_ptr cinfo, J16SAMPIMAGE input_buf,
-                                JDIMENSION *in_row_group_ctr,
-                                JDIMENSION in_row_groups_avail,
-                                J16SAMPARRAY output_buf,
-                                JDIMENSION *out_row_ctr,
-                                JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPtPjjS2_S4_jE post_process_data_16;
 #endif
 };
 
 /* Marker reading & parsing */
 struct jpeg_marker_reader {
-  void (*reset_marker_reader) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE reset_marker_reader;
   /* Read markers until SOS or EOI.
    * Returns same codes as are defined for jpeg_consume_input:
    * JPEG_SUSPENDED, JPEG_REACHED_SOS, or JPEG_REACHED_EOI.
    */
-  int (*read_markers) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE read_markers;
   /* Read a restart marker --- exported for use by entropy decoder only */
   jpeg_marker_parser_method read_restart_marker;
 
@@ -351,15 +296,13 @@ struct jpeg_marker_reader {
 
 /* Entropy decoding */
 struct jpeg_entropy_decoder {
-  void (*start_pass) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_pass;
 
   /* Lossy mode */
-  boolean (*decode_mcu) (j_decompress_ptr cinfo, JBLOCKROW *MCU_data);
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structPPA64_sE decode_mcu;
   /* Lossless mode */
-  JDIMENSION (*decode_mcus) (j_decompress_ptr cinfo, JDIFFIMAGE diff_buf,
-                             JDIMENSION MCU_row_num, JDIMENSION MCU_col_num,
-                             JDIMENSION nMCU);
-  boolean (*process_restart) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFjP22jpeg_decompress_structPPPijjjE decode_mcus;
+  struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE process_restart;
 
   /* This is here to share code between baseline and progressive decoders; */
   /* other modules probably should not use it */
@@ -370,19 +313,11 @@ struct jpeg_entropy_decoder {
  * Lossless mode: Prediction, sample undifferencing, point transform, and
  * sample size scaling
  */
-typedef void (*inverse_DCT_method_ptr) (j_decompress_ptr cinfo,
-                                        jpeg_component_info *compptr,
-                                        JCOEFPTR coef_block,
-                                        JSAMPARRAY output_buf,
-                                        JDIMENSION output_col);
-typedef void (*inverse_DCT_12_method_ptr) (j_decompress_ptr cinfo,
-                                           jpeg_component_info *compptr,
-                                           JCOEFPTR coef_block,
-                                           J12SAMPARRAY output_buf,
-                                           JDIMENSION output_col);
+typedef struct IA2_fnptr__ZTSFvP22jpeg_decompress_structP19jpeg_component_infoPsPPhjE inverse_DCT_method_ptr;
+typedef struct IA2_fnptr__ZTSFvP22jpeg_decompress_structP19jpeg_component_infoPsPS3_jE inverse_DCT_12_method_ptr;
 
 struct jpeg_inverse_dct {
-  void (*start_pass) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_pass;
 
   /* Lossy mode */
   /* It is useful to allow each component to have a separate IDCT method. */
@@ -392,20 +327,11 @@ struct jpeg_inverse_dct {
 
 /* Upsampling (note that upsampler must also call color converter) */
 struct jpeg_upsampler {
-  void (*start_pass) (j_decompress_ptr cinfo);
-  void (*upsample) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf,
-                    JDIMENSION *in_row_group_ctr,
-                    JDIMENSION in_row_groups_avail, JSAMPARRAY output_buf,
-                    JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
-  void (*upsample_12) (j_decompress_ptr cinfo, J12SAMPIMAGE input_buf,
-                       JDIMENSION *in_row_group_ctr,
-                       JDIMENSION in_row_groups_avail, J12SAMPARRAY output_buf,
-                       JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPhPjjS2_S4_jE upsample;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPsPjjS2_S4_jE upsample_12;
 #ifdef D_LOSSLESS_SUPPORTED
-  void (*upsample_16) (j_decompress_ptr cinfo, J16SAMPIMAGE input_buf,
-                       JDIMENSION *in_row_group_ctr,
-                       JDIMENSION in_row_groups_avail, J16SAMPARRAY output_buf,
-                       JDIMENSION *out_row_ctr, JDIMENSION out_rows_avail);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPtPjjS2_S4_jE upsample_16;
 #endif
 
   boolean need_context_rows;    /* TRUE if need rows above & below */
@@ -413,29 +339,21 @@ struct jpeg_upsampler {
 
 /* Colorspace conversion */
 struct jpeg_color_deconverter {
-  void (*start_pass) (j_decompress_ptr cinfo);
-  void (*color_convert) (j_decompress_ptr cinfo, JSAMPIMAGE input_buf,
-                         JDIMENSION input_row, JSAMPARRAY output_buf,
-                         int num_rows);
-  void (*color_convert_12) (j_decompress_ptr cinfo, J12SAMPIMAGE input_buf,
-                            JDIMENSION input_row, J12SAMPARRAY output_buf,
-                            int num_rows);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE start_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPhjS2_iE color_convert;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPsjS2_iE color_convert_12;
 #ifdef D_LOSSLESS_SUPPORTED
-  void (*color_convert_16) (j_decompress_ptr cinfo, J16SAMPIMAGE input_buf,
-                            JDIMENSION input_row, J16SAMPARRAY output_buf,
-                            int num_rows);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPtjS2_iE color_convert_16;
 #endif
 };
 
 /* Color quantization or color precision reduction */
 struct jpeg_color_quantizer {
-  void (*start_pass) (j_decompress_ptr cinfo, boolean is_pre_scan);
-  void (*color_quantize) (j_decompress_ptr cinfo, JSAMPARRAY input_buf,
-                          JSAMPARRAY output_buf, int num_rows);
-  void (*color_quantize_12) (j_decompress_ptr cinfo, J12SAMPARRAY input_buf,
-                             J12SAMPARRAY output_buf, int num_rows);
-  void (*finish_pass) (j_decompress_ptr cinfo);
-  void (*new_color_map) (j_decompress_ptr cinfo);
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structiE start_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPhS2_iE color_quantize;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPsS2_iE color_quantize_12;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE finish_pass;
+  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE new_color_map;
 };
 
 

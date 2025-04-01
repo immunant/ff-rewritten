@@ -70,12 +70,12 @@ static qcms_profile* GetICCProfile(struct jpeg_decompress_struct& info) {
   return profile;
 }
 
-METHODDEF(void) init_source(j_decompress_ptr jd);
-METHODDEF(boolean) fill_input_buffer(j_decompress_ptr jd);
-METHODDEF(void) skip_input_data(j_decompress_ptr jd, long num_bytes);
-METHODDEF(void) term_source(j_decompress_ptr jd);
-METHODDEF(void) my_error_exit(j_common_ptr cinfo);
-METHODDEF(void) progress_monitor(j_common_ptr info);
+__attribute__((used)) METHODDEF(void) init_source(j_decompress_ptr jd);
+__attribute__((used)) METHODDEF(boolean) fill_input_buffer(j_decompress_ptr jd);
+__attribute__((used)) METHODDEF(void) skip_input_data(j_decompress_ptr jd, long num_bytes);
+__attribute__((used)) METHODDEF(void) term_source(j_decompress_ptr jd);
+__attribute__((used)) METHODDEF(void) my_error_exit(j_common_ptr cinfo);
+__attribute__((used)) METHODDEF(void) progress_monitor(j_common_ptr info);
 
 // Normal JFIF markers can't have more bytes than this.
 #define MAX_JPEG_MARKER_LENGTH (((uint32_t)1 << 16) - 1)
@@ -90,11 +90,11 @@ nsJPEGDecoder::nsJPEGDecoder(RasterImage* aImage,
       mProfileLength(0),
       mCMSLine(nullptr),
       mDecodeStyle(aDecodeStyle) {
-  this->mErr.pub.error_exit = nullptr;
-  this->mErr.pub.emit_message = nullptr;
-  this->mErr.pub.output_message = nullptr;
-  this->mErr.pub.format_message = nullptr;
-  this->mErr.pub.reset_error_mgr = nullptr;
+  this->mErr.pub.error_exit = (typeof(this->mErr.pub.error_exit)) { NULL };
+  this->mErr.pub.emit_message = (typeof(this->mErr.pub.emit_message)) { NULL };
+  this->mErr.pub.output_message = (typeof(this->mErr.pub.output_message)) { NULL };
+  this->mErr.pub.format_message = (typeof(this->mErr.pub.format_message)) { NULL };
+  this->mErr.pub.reset_error_mgr = (typeof(this->mErr.pub.reset_error_mgr)) { NULL };
   this->mErr.pub.msg_code = 0;
   this->mErr.pub.trace_level = 0;
   this->mErr.pub.num_warnings = 0;
@@ -146,7 +146,7 @@ nsresult nsJPEGDecoder::InitInternal() {
   // We set up the normal JPEG error routines, then override error_exit.
   mInfo.err = jpeg_std_error(&mErr.pub);
   //   mInfo.err = jpeg_std_error(&mErr.pub);
-  mErr.pub.error_exit = my_error_exit;
+  mErr.pub.error_exit = IA2_FN(my_error_exit);
   // Establish the setjmp return context for my_error_exit to use.
   if (setjmp(mErr.setjmp_buffer)) {
     // If we get here, the JPEG code has signaled an error, and initialization
@@ -162,16 +162,16 @@ nsresult nsJPEGDecoder::InitInternal() {
   // Step 2: specify data source (eg, a file)
 
   // Setup callback functions.
-  mSourceMgr.init_source = init_source;
-  mSourceMgr.fill_input_buffer = fill_input_buffer;
-  mSourceMgr.skip_input_data = skip_input_data;
-  mSourceMgr.resync_to_restart = jpeg_resync_to_restart;
-  mSourceMgr.term_source = term_source;
+  mSourceMgr.init_source = IA2_FN(init_source);
+  mSourceMgr.fill_input_buffer = IA2_FN(fill_input_buffer);
+  mSourceMgr.skip_input_data = IA2_FN(skip_input_data);
+  mSourceMgr.resync_to_restart = IA2_FN(jpeg_resync_to_restart);
+  mSourceMgr.term_source = IA2_FN(term_source);
 
   mInfo.mem->max_memory_to_use = static_cast<long>(
       std::min<size_t>(SurfaceCache::MaximumCapacity(), LONG_MAX));
 
-  mProgressMgr.progress_monitor = &progress_monitor;
+  mProgressMgr.progress_monitor = &IA2_FN(progress_monitor);
   mInfo.progress = &mProgressMgr;
 
   // Record app markers for ICC data
@@ -1009,3 +1009,13 @@ static void cmyk_convert_bgra(uint32_t* aInput, uint32_t* aOutput,
     input += 4;
   }
 }
+IA2_DEFINE_WRAPPER(fill_input_buffer)
+IA2_DEFINE_WRAPPER(init_source)
+IA2_DEFINE_WRAPPER(skip_input_data)
+IA2_DEFINE_WRAPPER(term_source)
+IA2_DEFINE_WRAPPER(fill_input_buffer)
+IA2_DEFINE_WRAPPER(init_source)
+IA2_DEFINE_WRAPPER(my_error_exit)
+IA2_DEFINE_WRAPPER(progress_monitor)
+IA2_DEFINE_WRAPPER(skip_input_data)
+IA2_DEFINE_WRAPPER(term_source)
