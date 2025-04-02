@@ -59,7 +59,10 @@ LOCAL_INCLUDES += CONFIG["SKIA_INCLUDES"]
 
 FINAL_LIBRARY = "xul"
 
-CXXFLAGS += ["-Werror=switch"]
+CXXFLAGS += [
+    "-Werror=switch"
+    "-include/home/legare/ff-rewritten/wrapper.h",
+]
 
 # Add libFuzzer configuration directives
 include("/tools/fuzzing/libfuzzer-config.mozbuild")
