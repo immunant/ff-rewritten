@@ -18,15 +18,26 @@ extern "C" {
 #include <setjmp.h>
 #include "jerror.h"
 
+#include "ia2.h"
+
 using namespace mozilla;
 
 NS_IMPL_ISUPPORTS(nsJPEGEncoder, imgIEncoder, nsIInputStream,
                   nsIAsyncInputStream)
 
+// IA2: Wrappers for static class methods.
+extern "C" {
+  void errorExit(jpeg_common_struct* cinfo);
+  void initDestination(jpeg_compress_struct* cinfo);
+  boolean emptyOutputBuffer(jpeg_compress_struct* cinfo);
+  void termDestination(jpeg_compress_struct* cinfo);
+}
+
 class nsJPEGEncoderInternal {
   friend class nsJPEGEncoder;
 
- protected:
+ // IA2: Make fns public so they can be called from the C wrapper fns.
+ public:
   /**
    * Initialize destination. This is called by jpeg_start_compress() before
    * any data is actually written. It must initialize next_output_byte and
@@ -164,7 +175,7 @@ nsJPEGEncoder::InitFromData(const uint8_t* aData,
   // This must be done before the call to create_compress
   encoder_error_mgr errmgr;
   cinfo.err = jpeg_std_error(&errmgr.pub);
-  errmgr.pub.error_exit = IA2_FN(errorExit)::errorExit;
+  errmgr.pub.error_exit = IA2_FN(errorExit);
   // Establish the setjmp return context for my_error_exit to use.
   if (setjmp(errmgr.setjmp_buffer)) {
     // If we get here, the JPEG code has signaled an error.
@@ -191,9 +202,9 @@ nsJPEGEncoder::InitFromData(const uint8_t* aData,
 
   // set up the destination manager
   jpeg_destination_mgr destmgr;
-  destmgr.init_destination = IA2_FN(initDestination)::initDestination;
-  destmgr.empty_output_buffer = IA2_FN(emptyOutputBuffer)::emptyOutputBuffer;
-  destmgr.term_destination = IA2_FN(termDestination)::termDestination;
+  destmgr.init_destination = IA2_FN(initDestination);
+  destmgr.empty_output_buffer = IA2_FN(emptyOutputBuffer);
+  destmgr.term_destination = IA2_FN(termDestination);
   cinfo.dest = &destmgr;
   cinfo.client_data = this;
 
@@ -298,7 +309,7 @@ nsJPEGEncoder::StreamStatus() {
 
 NS_IMETHODIMP
 nsJPEGEncoder::Read(char* aBuf, uint32_t aCount, uint32_t* _retval) {
-  return ReadSegments(IA2_FN(NS_CopySegmentToBuffer), aBuf, aCount, _retval);
+  return ReadSegments(IA2_IGNORE(NS_CopySegmentToBuffer), aBuf, aCount, _retval);
 }
 
 NS_IMETHODIMP
@@ -517,3 +528,24 @@ void nsJPEGEncoderInternal::errorExit(jpeg_common_struct* cinfo) {
   // an int, which works because the setjmp() caller casts it back.
   longjmp(err->setjmp_buffer, static_cast<int>(error_code));
 }
+
+// IA2: Wrappers for static class methods.
+void errorExit(jpeg_common_struct* cinfo) {
+  nsJPEGEncoderInternal::errorExit(cinfo);
+}
+
+void initDestination(jpeg_compress_struct* cinfo) {
+  nsJPEGEncoderInternal::initDestination(cinfo);
+}
+
+boolean emptyOutputBuffer(jpeg_compress_struct* cinfo) {
+  return nsJPEGEncoderInternal::emptyOutputBuffer(cinfo);
+}
+
+void termDestination(jpeg_compress_struct* cinfo) {
+  nsJPEGEncoderInternal::termDestination(cinfo);
+}
+IA2_DEFINE_WRAPPER(emptyOutputBuffer)
+IA2_DEFINE_WRAPPER(errorExit)
+IA2_DEFINE_WRAPPER(initDestination)
+IA2_DEFINE_WRAPPER(termDestination)

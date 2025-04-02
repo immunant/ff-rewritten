@@ -10,18 +10,9 @@ asm(
 );
 extern struct IA2_fnptr__ZTSFvP18jpeg_common_structE __ia2_OutputHandler;
 extern struct IA2_fnptr__ZTSFiP20jpeg_compress_structE __ia2_emptyOutputBuffer;
-asm(
-  ".set __ia2_emptyOutputBuffer, __real_emptyOutputBuffer\n"
-);
 extern struct IA2_fnptr__ZTSFvP18jpeg_common_structE __ia2_errorExit;
-asm(
-  ".set __ia2_errorExit, __real_errorExit\n"
-);
 extern struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE __ia2_fill_input_buffer;
 extern struct IA2_fnptr__ZTSFvP20jpeg_compress_structE __ia2_initDestination;
-asm(
-  ".set __ia2_initDestination, __real_initDestination\n"
-);
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE __ia2_init_source;
 extern struct IA2_fnptr__ZTSFiP22jpeg_decompress_structiE __ia2_jpeg_resync_to_restart;
 asm(
@@ -29,9 +20,6 @@ asm(
 );
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structlE __ia2_skip_input_data;
 extern struct IA2_fnptr__ZTSFvP20jpeg_compress_structE __ia2_termDestination;
-asm(
-  ".set __ia2_termDestination, __real_termDestination\n"
-);
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE __ia2_term_source;
 extern struct IA2_fnptr__ZTSFiP22jpeg_decompress_structE __ia2_fill_input_buffer_cpp;
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE __ia2_init_source_cpp;
@@ -211,6 +199,180 @@ asm(\
     ".size __ia2_OutputHandler, .-__ia2_OutputHandler\n" \
     ".previous\n" \
 );
+#define IA2_DEFINE_WRAPPER_emptyOutputBuffer \
+asm(\
+    /* Wrapper for emptyOutputBuffer(int) -> int: */ \
+    ".text\n" \
+    ".global __ia2_emptyOutputBuffer\n" \
+    ".type __ia2_emptyOutputBuffer, @function\n" \
+    "__ia2_emptyOutputBuffer:\n" \
+    "pushq %rbp\n" \
+    "movq %rsp, %rbp\n" \
+    "pushq %rbx\n" \
+    "pushq %r12\n" \
+    "pushq %r13\n" \
+    "pushq %r14\n" \
+    "pushq %r15\n" \
+    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    "subq $8, %rsp\n" \
+    /* Set PKRU to the compartment's value */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Call wrapped function */ \
+    "call emptyOutputBuffer\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    /* Free stack space used for stack args */ \
+    "addq $8, %rsp\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    /* Preserve essential regs on stack */ \
+    "pushq %rax\n" \
+    /* Scrub non-essential regs */ \
+    "call __libia2_scrub_registers\n" \
+    /* Restore preserved regs */ \
+    "popq %rax\n" \
+    /* Set PKRU to the caller's value */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffffc, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    "popq %r15\n" \
+    "popq %r14\n" \
+    "popq %r13\n" \
+    "popq %r12\n" \
+    "popq %rbx\n" \
+    "popq %rbp\n" \
+    /* Return to the caller */ \
+    "ret\n" \
+    ".size __ia2_emptyOutputBuffer, .-__ia2_emptyOutputBuffer\n" \
+    ".previous\n" \
+);
+#define IA2_DEFINE_WRAPPER_errorExit \
+asm(\
+    /* Wrapper for errorExit(int): */ \
+    ".text\n" \
+    ".global __ia2_errorExit\n" \
+    ".type __ia2_errorExit, @function\n" \
+    "__ia2_errorExit:\n" \
+    "pushq %rbp\n" \
+    "movq %rsp, %rbp\n" \
+    "pushq %rbx\n" \
+    "pushq %r12\n" \
+    "pushq %r13\n" \
+    "pushq %r14\n" \
+    "pushq %r15\n" \
+    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    "subq $8, %rsp\n" \
+    /* Set PKRU to the compartment's value */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Call wrapped function */ \
+    "call errorExit\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    /* Free stack space used for stack args */ \
+    "addq $8, %rsp\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    /* Scrub non-essential regs */ \
+    "call __libia2_scrub_registers\n" \
+    /* Set PKRU to the caller's value */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffffc, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    "popq %r15\n" \
+    "popq %r14\n" \
+    "popq %r13\n" \
+    "popq %r12\n" \
+    "popq %rbx\n" \
+    "popq %rbp\n" \
+    /* Return to the caller */ \
+    "ret\n" \
+    ".size __ia2_errorExit, .-__ia2_errorExit\n" \
+    ".previous\n" \
+);
 #define IA2_DEFINE_WRAPPER_fill_input_buffer \
 asm(\
     /* Wrapper for fill_input_buffer(int) -> int: */ \
@@ -298,6 +460,91 @@ asm(\
     /* Return to the caller */ \
     "ret\n" \
     ".size __ia2_fill_input_buffer, .-__ia2_fill_input_buffer\n" \
+    ".previous\n" \
+);
+#define IA2_DEFINE_WRAPPER_initDestination \
+asm(\
+    /* Wrapper for initDestination(int): */ \
+    ".text\n" \
+    ".global __ia2_initDestination\n" \
+    ".type __ia2_initDestination, @function\n" \
+    "__ia2_initDestination:\n" \
+    "pushq %rbp\n" \
+    "movq %rsp, %rbp\n" \
+    "pushq %rbx\n" \
+    "pushq %r12\n" \
+    "pushq %r13\n" \
+    "pushq %r14\n" \
+    "pushq %r15\n" \
+    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    "subq $8, %rsp\n" \
+    /* Set PKRU to the compartment's value */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Call wrapped function */ \
+    "call initDestination\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    /* Free stack space used for stack args */ \
+    "addq $8, %rsp\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    /* Scrub non-essential regs */ \
+    "call __libia2_scrub_registers\n" \
+    /* Set PKRU to the caller's value */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffffc, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    "popq %r15\n" \
+    "popq %r14\n" \
+    "popq %r13\n" \
+    "popq %r12\n" \
+    "popq %rbx\n" \
+    "popq %rbp\n" \
+    /* Return to the caller */ \
+    "ret\n" \
+    ".size __ia2_initDestination, .-__ia2_initDestination\n" \
     ".previous\n" \
 );
 #define IA2_DEFINE_WRAPPER_init_source \
@@ -468,6 +715,91 @@ asm(\
     /* Return to the caller */ \
     "ret\n" \
     ".size __ia2_skip_input_data, .-__ia2_skip_input_data\n" \
+    ".previous\n" \
+);
+#define IA2_DEFINE_WRAPPER_termDestination \
+asm(\
+    /* Wrapper for termDestination(int): */ \
+    ".text\n" \
+    ".global __ia2_termDestination\n" \
+    ".type __ia2_termDestination, @function\n" \
+    "__ia2_termDestination:\n" \
+    "pushq %rbp\n" \
+    "movq %rsp, %rbp\n" \
+    "pushq %rbx\n" \
+    "pushq %r12\n" \
+    "pushq %r13\n" \
+    "pushq %r14\n" \
+    "pushq %r15\n" \
+    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    "subq $8, %rsp\n" \
+    /* Set PKRU to the compartment's value */ \
+    "movq %rcx, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rcx\n" \
+    "movq %r11, %rdx\n" \
+    /* Call wrapped function */ \
+    "call termDestination\n" \
+    /* Set PKRU to the intermediate value to move arguments */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffff0, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    /* Free stack space used for stack args */ \
+    "addq $8, %rsp\n" \
+    /* Compute location to save old stack pointer (using r11) */ \
+    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    /* Write the old stack pointer to memory */ \
+    "movq %rsp, %fs:(%r11)\n" \
+    /* Compute location to load new stack pointer (using r11) */ \
+    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
+    /* Read the new stack pointer from memory */ \
+    "movq %fs:(%r11), %rsp\n" \
+    /* Scrub non-essential regs */ \
+    "call __libia2_scrub_registers\n" \
+    /* Set PKRU to the caller's value */ \
+    "movq %rax, %r10\n" \
+    "movq %rdx, %r11\n" \
+    "xorl %ecx, %ecx\n" \
+    "xorl %edx, %edx\n" \
+    "movl $0xfffffffc, %eax\n" \
+    "wrpkru\n" \
+    "movq %r10, %rax\n" \
+    "movq %r11, %rdx\n" \
+    "popq %r15\n" \
+    "popq %r14\n" \
+    "popq %r13\n" \
+    "popq %r12\n" \
+    "popq %rbx\n" \
+    "popq %rbp\n" \
+    /* Return to the caller */ \
+    "ret\n" \
+    ".size __ia2_termDestination, .-__ia2_termDestination\n" \
     ".previous\n" \
 );
 #define IA2_DEFINE_WRAPPER_term_source \
