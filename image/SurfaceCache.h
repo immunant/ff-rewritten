@@ -60,7 +60,7 @@ class SurfaceKey {
 
   PLDHashNumber Hash() const {
     PLDHashNumber hash = HashGeneric(mSize.width, mSize.height);
-    hash = AddToHash(hash, mRegion.map(IA2_FN(HashIIR)).valueOr(0));
+    hash = AddToHash(hash, mRegion.map(HashIIR).valueOr(0));
     hash = AddToHash(hash, HashSIC(mSVGContext));
     hash = AddToHash(hash, uint8_t(mPlayback), uint32_t(mFlags));
     return hash;

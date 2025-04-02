@@ -64,7 +64,10 @@ struct SetJmpErrorMgr;
 // See http://tools.ietf.org/html/rfc2435
 class LIBYUV_API MJpegDecoder {
  public:
-  typedef struct IA2_fnptr__ZTSFvPvPKPKhPKiiE CallbackFunction;
+  typedef void (*CallbackFunction)(void* opaque,
+                                   const uint8_t* const* data,
+                                   const int* strides,
+                                   int rows);
 
   static const int kColorSpaceUnknown;
   static const int kColorSpaceGrayscale;

@@ -607,7 +607,7 @@ public:
         @return             true if SkImageInfo is set to info
     */
     bool installPixels(const SkImageInfo& info, void* pixels, size_t rowBytes,
-                       struct IA2_fnptr__ZTSFvPvS_E releaseProc, void* context);
+                       void (*releaseProc)(void* addr, void* context), void* context);
 
     /** Sets SkImageInfo to info following the rules in setInfo(), and creates SkPixelRef
         containing pixels and rowBytes.
@@ -625,7 +625,7 @@ public:
         @return          true if SkImageInfo is set to info
     */
     bool installPixels(const SkImageInfo& info, void* pixels, size_t rowBytes) {
-        return this->installPixels(info, pixels, rowBytes, { nullptr }, nullptr);
+        return this->installPixels(info, pixels, rowBytes, nullptr, nullptr);
     }
 
     /** Sets SkImageInfo to pixmap.info() following the rules in setInfo(), and creates

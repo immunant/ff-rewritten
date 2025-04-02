@@ -47,7 +47,11 @@
 
 #ifdef C_LOSSLESS_SUPPORTED
 
-typedef struct IA2_fnptr__ZTSFvP20jpeg_compress_structiPhS1_PijE predict_difference_method_ptr;
+typedef void (*predict_difference_method_ptr) (j_compress_ptr cinfo, int ci,
+                                               _JSAMPROW input_buf,
+                                               _JSAMPROW prev_row,
+                                               JDIFFROW diff_buf,
+                                               JDIMENSION width);
 
 /* Lossless compressor */
 typedef struct {
@@ -60,7 +64,8 @@ typedef struct {
   unsigned int restart_rows_to_go[MAX_COMPONENTS];
 
   /* Sample scaling */
-  struct IA2_fnptr__ZTSFvP20jpeg_compress_structPhS1_jE scaler_scale;
+  void (*scaler_scale) (j_compress_ptr cinfo, _JSAMPROW input_buf,
+                        _JSAMPROW output_buf, JDIMENSION width);
 } jpeg_lossless_compressor;
 
 typedef jpeg_lossless_compressor *lossless_comp_ptr;
@@ -70,7 +75,12 @@ typedef jpeg_lossless_compressor *lossless_comp_ptr;
 
 #ifdef D_LOSSLESS_SUPPORTED
 
-typedef struct IA2_fnptr__ZTSFvP22jpeg_decompress_structiPiS1_S1_jE predict_undifference_method_ptr;
+typedef void (*predict_undifference_method_ptr) (j_decompress_ptr cinfo,
+                                                 int comp_index,
+                                                 JDIFFROW diff_buf,
+                                                 JDIFFROW prev_row,
+                                                 JDIFFROW undiff_buf,
+                                                 JDIMENSION width);
 
 /* Lossless decompressor */
 typedef struct {
@@ -80,7 +90,8 @@ typedef struct {
   predict_undifference_method_ptr predict_undifference[MAX_COMPONENTS];
 
   /* Sample scaling */
-  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPiPhjE scaler_scale;
+  void (*scaler_scale) (j_decompress_ptr cinfo, JDIFFROW diff_buf,
+                        _JSAMPROW output_buf, JDIMENSION width);
 } jpeg_lossless_decompressor;
 
 typedef jpeg_lossless_decompressor *lossless_decomp_ptr;

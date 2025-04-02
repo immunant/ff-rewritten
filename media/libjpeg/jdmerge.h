@@ -22,7 +22,8 @@ typedef struct {
   struct jpeg_upsampler pub;    /* public fields */
 
   /* Pointer to routine to do actual upsampling/conversion of one row group */
-  struct IA2_fnptr__ZTSFvP22jpeg_decompress_structPPPhjS2_E upmethod;
+  void (*upmethod) (j_decompress_ptr cinfo, _JSAMPIMAGE input_buf,
+                    JDIMENSION in_row_group_ctr, _JSAMPARRAY output_buf);
 
   /* Private state for YCC->RGB conversion */
   int *Cr_r_tab;                /* => table for Cr to R conversion */

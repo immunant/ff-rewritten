@@ -583,3 +583,7 @@ JpegSubsamplingType MJpegDecoder::JpegSubsamplingTypeHelper(
 #endif  // HAVE_JPEG
 IA2_DEFINE_WRAPPER(ErrorHandler)
 IA2_DEFINE_WRAPPER(OutputHandler)
+IA2_DEFINE_WRAPPER(fill_input_buffer)
+IA2_DEFINE_WRAPPER(init_source)
+IA2_DEFINE_WRAPPER(skip_input_data)
+IA2_DEFINE_WRAPPER(term_source)

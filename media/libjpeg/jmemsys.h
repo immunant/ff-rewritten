@@ -103,9 +103,13 @@ typedef struct backing_store_struct *backing_store_ptr;
 
 typedef struct backing_store_struct {
   /* Methods for reading/writing/closing this backing-store object */
-  struct IA2_fnptr__ZTSFvP18jpeg_common_structP20backing_store_structPvllE read_backing_store;
-  struct IA2_fnptr__ZTSFvP18jpeg_common_structP20backing_store_structPvllE write_backing_store;
-  struct IA2_fnptr__ZTSFvP18jpeg_common_structP20backing_store_structE close_backing_store;
+  void (*read_backing_store) (j_common_ptr cinfo, backing_store_ptr info,
+                              void *buffer_address, long file_offset,
+                              long byte_count);
+  void (*write_backing_store) (j_common_ptr cinfo, backing_store_ptr info,
+                               void *buffer_address, long file_offset,
+                               long byte_count);
+  void (*close_backing_store) (j_common_ptr cinfo, backing_store_ptr info);
 
   /* Private fields for system-dependent backing-store management */
   /* For a typical implementation with temp files, we need: */

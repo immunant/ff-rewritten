@@ -281,13 +281,13 @@ class DeinterlacingFilter final : public SurfaceFilter {
     // within the buffer.
     DuplicateRows(
         HaeberliOutputStartRow(mPass, mProgressiveDisplay, mOutputRow),
-        IA2_FN(HaeberliOutputUntilRow)(mPass, mProgressiveDisplay, InputSize(),
+        HaeberliOutputUntilRow(mPass, mProgressiveDisplay, InputSize(),
                                mOutputRow));
 
     // Write the current set of Haeberli rows (which contains the current row)
     // to the next stage in the pipeline.
     OutputRows(HaeberliOutputStartRow(mPass, mProgressiveDisplay, mOutputRow),
-               IA2_FN(HaeberliOutputUntilRow)(mPass, mProgressiveDisplay, InputSize(),
+               HaeberliOutputUntilRow(mPass, mProgressiveDisplay, InputSize(),
                                       mOutputRow));
 
     // Determine which output row the next input row corresponds to.
@@ -297,7 +297,7 @@ class DeinterlacingFilter final : public SurfaceFilter {
     while (nextOutputRow >= InputSize().height) {
       // Copy any remaining rows from the buffer.
       if (!advancedPass) {
-        OutputRows(IA2_FN(HaeberliOutputUntilRow)(mPass, mProgressiveDisplay,
+        OutputRows(HaeberliOutputUntilRow(mPass, mProgressiveDisplay,
                                           InputSize(), mOutputRow),
                    InputSize().height);
       }
@@ -341,7 +341,7 @@ class DeinterlacingFilter final : public SurfaceFilter {
     if (advancedPass) {
       OutputRows(0, nextHaeberliOutputRow);
     } else {
-      OutputRows(IA2_FN(HaeberliOutputUntilRow)(mPass, mProgressiveDisplay, InputSize(),
+      OutputRows(HaeberliOutputUntilRow(mPass, mProgressiveDisplay, InputSize(),
                                         mOutputRow),
                  nextHaeberliOutputRow);
     }
@@ -669,7 +669,7 @@ class BlendAnimationFilter final : public SurfaceFilter {
     // width is larger than the clamped frame rect width. In that case, the
     // caller will end up writing data that won't end up in the final image at
     // all, and we'll need a buffer to give that data a place to go.
-    if (mFrameRect.width < mUnclampedFrameRect.width || IA2_ADDR(mOverProc)) {
+    if (mFrameRect.width < mUnclampedFrameRect.width || mOverProc) {
       mBuffer.reset(new (fallible)
                         uint8_t[mUnclampedFrameRect.width * sizeof(uint32_t)]);
       if (MOZ_UNLIKELY(!mBuffer)) {
@@ -1211,7 +1211,7 @@ class ADAM7InterpolatingFilter final : public SurfaceFilter {
     }
 
     const int32_t lastImportantRow =
-        IA2_FN(LastImportantRow)(InputSize().height, mPass);
+        LastImportantRow(InputSize().height, mPass);
     if (currentRow > lastImportantRow) {
       return nullptr;  // This pass is already complete.
     }
@@ -1224,14 +1224,14 @@ class ADAM7InterpolatingFilter final : public SurfaceFilter {
 
     // This is an important row. We need to perform horizontal interpolation for
     // these rows.
-    IA2_FN(InterpolateHorizontally)(mCurrentRow.get(), InputSize().width, mPass);
+    InterpolateHorizontally(mCurrentRow.get(), InputSize().width, mPass);
 
     // Interpolate vertically between the previous important row and the current
     // important row. We skip this if the current row is 0 (which is always an
     // important row), because in that case there is no previous important row
     // to interpolate with.
     if (currentRow != 0) {
-      IA2_FN(InterpolateVertically)(mPreviousRow.get(), mCurrentRow.get(), mPass,
+      InterpolateVertically(mPreviousRow.get(), mCurrentRow.get(), mPass,
                             mNext);
     }
 
