@@ -6,12 +6,6 @@
 
 #include <ia2.h>
 
-INIT_RUNTIME(2); // This is the number of pkeys needed
-
-// This must be defined before including the following line
-#define IA2_COMPARTMENT 1
-#include <ia2_compartment_init.inc>
-
 #include "ImageLogging.h"  // Must appear first.
 
 #include "nsJPEGDecoder.h"

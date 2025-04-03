@@ -3,6 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+extern "C" {
+  #include <ia2.h>
+
+  INIT_RUNTIME(1);
+
+  // This must be defined before including the following line
+  #define IA2_COMPARTMENT 1
+
+  #include <ia2_compartment_init.inc>
+}
+
 #include "nsXULAppAPI.h"
 #include "mozilla/XREAppData.h"
 #include "XREChildData.h"
