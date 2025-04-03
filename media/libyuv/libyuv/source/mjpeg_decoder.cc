@@ -8,6 +8,8 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
+#include "ia2.h"
+
 #include "libyuv/mjpeg_decoder.h"
 
 #ifdef HAVE_JPEG
