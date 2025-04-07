@@ -60,8 +60,12 @@ LOCAL_INCLUDES += CONFIG["SKIA_INCLUDES"]
 FINAL_LIBRARY = "xul"
 
 CXXFLAGS += [
-    "-Werror=switch"
+    "-Werror=switch",
     "-include/home/legare/ff-rewritten/wrapper.h",
+    "-DIA2_ENABLE=1",
+    # "-DIA2_ENABLE=0",
+    "-DIA2_DEBUG=1",
+    "-DIA2_DEBUG_LOG=1"
 ]
 
 # Add libFuzzer configuration directives
