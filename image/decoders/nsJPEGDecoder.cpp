@@ -4,7 +4,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#include <ia2.h>
+extern "C" {
+  #include <ia2.h>
+
+  INIT_RUNTIME(1);
+
+  // This must be defined before including the following line
+  #define IA2_COMPARTMENT 1
+
+  #include <ia2_compartment_init.inc>
+
+  // extern __thread void *ia2_stackptr_0;
+  // extern __thread void *ia2_stackptr_1;
+}
 
 #include "ImageLogging.h"  // Must appear first.
 
@@ -167,7 +179,7 @@ nsresult nsJPEGDecoder::InitInternal() {
   mInfo.mem->max_memory_to_use = static_cast<long>(
       std::min<size_t>(SurfaceCache::MaximumCapacity(), LONG_MAX));
 
-  mProgressMgr.progress_monitor = &IA2_FN(progress_monitor);
+  mProgressMgr.progress_monitor = IA2_FN(progress_monitor);
   mInfo.progress = &mProgressMgr;
 
   // Record app markers for ICC data
@@ -1011,3 +1023,4 @@ IA2_DEFINE_WRAPPER(my_error_exit)
 IA2_DEFINE_WRAPPER(progress_monitor)
 IA2_DEFINE_WRAPPER(skip_input_data_cpp)
 IA2_DEFINE_WRAPPER(term_source_cpp)
+IA2_DEFINE_WRAPPER(jpeg_resync_to_restart)
