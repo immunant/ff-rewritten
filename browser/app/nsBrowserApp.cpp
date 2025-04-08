@@ -15,10 +15,13 @@ extern "C" {
 
 #include <dlfcn.h>
 
+__attribute__((visibility("default"))) __thread void *ia2_stackptr_0[PAGE_SIZE / sizeof(void *)] __attribute__((aligned(4096)));
+
 void *ia2_get_stackptr_1(void) {
-    void *handle = dlopen("libxul.so", RTLD_NOW | RTLD_GLOBAL);
+    void *handle = dlopen("libxul.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NOLOAD);
     assert(handle);
     void *res = dlsym(handle, "ia2_stackptr_1");
+    return res;
 }
 
 #if 0
