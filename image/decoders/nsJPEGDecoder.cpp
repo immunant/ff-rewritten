@@ -13,9 +13,6 @@ extern "C" {
   #define IA2_COMPARTMENT 1
 
   #include <ia2_compartment_init.inc>
-
-  // extern __thread void *ia2_stackptr_0;
-  // extern __thread void *ia2_stackptr_1;
 }
 
 #include "ImageLogging.h"  // Must appear first.
@@ -173,7 +170,7 @@ nsresult nsJPEGDecoder::InitInternal() {
   mSourceMgr.init_source = IA2_FN(init_source_cpp);
   mSourceMgr.fill_input_buffer = IA2_FN(fill_input_buffer_cpp);
   mSourceMgr.skip_input_data = IA2_FN(skip_input_data_cpp);
-  mSourceMgr.resync_to_restart = IA2_FN(jpeg_resync_to_restart);
+  mSourceMgr.resync_to_restart = jpeg_resync_to_restart;
   mSourceMgr.term_source = IA2_FN(term_source_cpp);
 
   mInfo.mem->max_memory_to_use = static_cast<long>(
@@ -1023,4 +1020,3 @@ IA2_DEFINE_WRAPPER(my_error_exit)
 IA2_DEFINE_WRAPPER(progress_monitor)
 IA2_DEFINE_WRAPPER(skip_input_data_cpp)
 IA2_DEFINE_WRAPPER(term_source_cpp)
-IA2_DEFINE_WRAPPER(jpeg_resync_to_restart)
