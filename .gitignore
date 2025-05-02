@@ -362,3 +362,5 @@ toolkit/crashreporter/minidump-analyzer/analyzer-test/target/
 
 # Ignore mozperftest artifacts folder
 /artifacts/
+third_party/ia2/liblibia2.a
+libcallgates.so
