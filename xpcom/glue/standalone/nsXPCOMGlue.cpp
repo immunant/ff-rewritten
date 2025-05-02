@@ -90,11 +90,17 @@ NS_HIDDEN __typeof(dlclose) __wrap_dlclose;
 #  endif
 
 static LibHandleResult GetLibHandle(pathstr_t aDependentLib) {
-  LibHandleType libHandle = dlopen(aDependentLib, RTLD_GLOBAL | RTLD_LAZY
+  auto flags = RTLD_GLOBAL | RTLD_LAZY 
 #  ifdef XP_MACOSX
-                                                      | RTLD_FIRST
+    | RTLD_FIRST
 #  endif
-  );
+  ;
+
+  if (strstr(aDependentLib, "xul.so")) {
+    flags |= RTLD_NOLOAD;
+  }
+
+  LibHandleType libHandle = dlopen(aDependentLib, flags);
   if (!libHandle) {
     UniqueFreePtr<char> errMsg(strdup(dlerror()));
     fprintf(stderr, "XPCOMGlueLoad error for file %s:\n%s\n", aDependentLib,

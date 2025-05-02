@@ -1,0 +1,4 @@
+{
+    global:
+        ia2_stackptr_0;
+};

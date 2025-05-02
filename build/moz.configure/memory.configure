@@ -104,14 +104,14 @@ option(
     "Also enables frame pointers when needed",
 )
 
-set_config("MOZ_PHC", True, when="--enable-phc")
+# set_config("MOZ_PHC", True, when="--enable-phc")
 
 
-# PHC parses stacks using frame pointers on these systems.
+# # PHC parses stacks using frame pointers on these systems.
 @depends("--enable-phc", target, have_unwind, when="--enable-jemalloc")
 def phc_implies_frame_pointers(phc, target, have_unwind):
-    if not phc:
-        return False
+    # if not phc:
+    return False
 
     # This should be kept in sync with the ifdefs in memory/build/PHC.cpp
     # that control stack walking.
@@ -123,7 +123,7 @@ def phc_implies_frame_pointers(phc, target, have_unwind):
     if (target.cpu in ("x86", "ppc")) and (target.kernel in ("Darwin", "Linux")):
         return not have_unwind
 
-    return False
+#     return False
 
 
 imply_option("--enable-frame-pointers", True, when=phc_implies_frame_pointers)

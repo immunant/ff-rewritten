@@ -344,4 +344,8 @@ if CONFIG['TARGET_CPU'] == 'x86_64':
 # We allow warnings for third-party code that can be updated from upstream.
 AllowCompilerWarnings()
 
+CXXFLAGS += [
+    "-fPIC",
+]
+
 #FINAL_LIBRARY = 'xul'

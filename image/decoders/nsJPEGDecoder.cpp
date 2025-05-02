@@ -13,6 +13,8 @@ extern "C" {
   #define IA2_COMPARTMENT 1
 
   #include <ia2_compartment_init.inc>
+
+  __attribute__((visibility("default"))) __thread void *ia2_thread_init_stackptr;
 }
 
 #include "ImageLogging.h"  // Must appear first.

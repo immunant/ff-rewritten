@@ -4265,7 +4265,11 @@ JS::Handle<JSObject*> GetPerInterfaceObjectHandle(
   const JS::Heap<JSObject*>& entrySlot =
       protoAndIfaceCache.EntrySlotMustExist(aSlotId);
   JS::AssertObjectIsNotGray(entrySlot);
-  return JS::Handle<JSObject*>::fromMarkedLocation(entrySlot.unsafeAddress());
+  auto address = entrySlot.unsafeAddress();
+  int hasEntry = protoAndIfaceCache.HasEntryInSlot(aSlotId);
+  // printf("GetPerInterfaceObjectHandle: Unsafe address: %p, has slot: %d\n", address, hasEntry);
+  auto handle = JS::Handle<JSObject*>::fromMarkedLocation(address);
+  return handle;
 }
 
 namespace binding_detail {

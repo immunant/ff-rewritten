@@ -1197,9 +1197,6 @@ extern struct IA2_fnptr__ZTSFvP18jpeg_common_structE __ia2_my_error_exit;
 extern struct IA2_fnptr__ZTSFvP18jpeg_common_structE __ia2_progress_monitor;
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structlE __ia2_skip_input_data_cpp;
 extern struct IA2_fnptr__ZTSFvP22jpeg_decompress_structE __ia2_term_source_cpp;
-extern struct IA2_fnptr__ZTSFifE __ia2_DefaultPercentLengthToAppUnits;
-extern struct IA2_fnptr__ZTSFvP12PLDHashTablePK15PLDHashEntryHdrPS1_E __ia2_FixedSizeEntryMover;
-extern struct IA2_fnptr__ZTSFvN2JS9GCCellPtrEPKcPvE __ia2_SearchGray;
 asm("__libia2_abort:\n"
     "ud2");
 #define IA2_DEFINE_WRAPPER_AddU32ToHash \
@@ -1231,9 +1228,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1258,9 +1275,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1316,9 +1353,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1343,9 +1400,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1401,9 +1478,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1428,9 +1525,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1486,9 +1603,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1513,9 +1650,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1571,9 +1728,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1598,9 +1775,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1656,9 +1853,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1683,9 +1900,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1741,9 +1978,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1768,9 +2025,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1830,9 +2107,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1857,9 +2154,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -1919,9 +2236,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -1946,9 +2283,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2004,9 +2361,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2031,9 +2408,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2089,9 +2486,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2116,9 +2533,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2174,9 +2611,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2201,9 +2658,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2259,9 +2736,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2286,9 +2783,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2344,9 +2861,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2371,9 +2908,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2429,9 +2986,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2456,9 +3033,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2518,9 +3115,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2545,9 +3162,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2603,9 +3240,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2630,9 +3287,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2692,9 +3369,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2719,9 +3416,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2777,9 +3494,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2804,9 +3541,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2862,9 +3619,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2889,9 +3666,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -2947,9 +3744,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -2974,9 +3791,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3032,9 +3869,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3059,9 +3916,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3117,9 +3994,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3144,9 +4041,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3202,9 +4119,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3229,9 +4166,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3287,9 +4244,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3314,9 +4291,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3372,9 +4369,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3399,9 +4416,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3461,9 +4498,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3488,9 +4545,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3546,9 +4623,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3573,9 +4670,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3631,9 +4748,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3658,9 +4795,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3716,9 +4873,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3743,9 +4920,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3801,9 +4998,29 @@ asm(\
     /* Write the old stack pointer to memory */ \
     "movq %rsp, %fs:(%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
+    "movq (%r11), %rsp\n" \
     "subq $8, %rsp\n" \
     /* Set PKRU to the compartment's value */ \
     "movq %rcx, %r10\n" \
@@ -3828,9 +5045,29 @@ asm(\
     /* Free stack space used for stack args */ \
     "addq $8, %rsp\n" \
     /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
+    "push %rdi\n" \
+    "push %rax\n" \
+    "push %rsi\n" \
+    "push %rdx\n" \
+    "push %rcx\n" \
+    "push %r8\n" \
+    "push %r9\n" \
+    "push %r10\n" \
+    "data16	leaq	ia2_stackptr_1@tlsgd(%rip), %rdi\n" \
+    ".value	0x6666\n" \
+    "rex64\n" \
+    "call	__tls_get_addr@PLT\n" \
+    "movq	(%rax), %r11\n" \
+    "pop %r10\n" \
+    "pop %r9\n" \
+    "pop %r8\n" \
+    "pop %rcx\n" \
+    "pop %rdx\n" \
+    "pop %rsi\n" \
+    "pop %rax\n" \
+    "pop %rdi\n" \
     /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
+    "movq %rsp, (%r11)\n" \
     /* Compute location to load new stack pointer (using r11) */ \
     "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
     /* Read the new stack pointer from memory */ \
@@ -3855,261 +5092,6 @@ asm(\
     /* Return to the caller */ \
     "ret\n" \
     ".size __ia2_term_source_cpp, .-__ia2_term_source_cpp\n" \
-    ".previous\n" \
-);
-#define IA2_DEFINE_WRAPPER_DefaultPercentLengthToAppUnits \
-asm(\
-    /* Wrapper for DefaultPercentLengthToAppUnits(): */ \
-    ".text\n" \
-    ".local __ia2_DefaultPercentLengthToAppUnits\n" \
-    ".type __ia2_DefaultPercentLengthToAppUnits, @function\n" \
-    "__ia2_DefaultPercentLengthToAppUnits:\n" \
-    "pushq %rbp\n" \
-    "movq %rsp, %rbp\n" \
-    "pushq %rbx\n" \
-    "pushq %r12\n" \
-    "pushq %r13\n" \
-    "pushq %r14\n" \
-    "pushq %r15\n" \
-    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    "subq $8, %rsp\n" \
-    /* Set PKRU to the compartment's value */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Call wrapped function */ \
-    "call DefaultPercentLengthToAppUnits\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    /* Free stack space used for stack args */ \
-    "addq $8, %rsp\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    /* Scrub non-essential regs */ \
-    "call __libia2_scrub_registers\n" \
-    /* Set PKRU to the caller's value */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffffc, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    "popq %r15\n" \
-    "popq %r14\n" \
-    "popq %r13\n" \
-    "popq %r12\n" \
-    "popq %rbx\n" \
-    "popq %rbp\n" \
-    /* Return to the caller */ \
-    "ret\n" \
-    ".size __ia2_DefaultPercentLengthToAppUnits, .-__ia2_DefaultPercentLengthToAppUnits\n" \
-    ".previous\n" \
-);
-#define IA2_DEFINE_WRAPPER_FixedSizeEntryMover \
-asm(\
-    /* Wrapper for FixedSizeEntryMover(): */ \
-    ".text\n" \
-    ".local __ia2_FixedSizeEntryMover\n" \
-    ".type __ia2_FixedSizeEntryMover, @function\n" \
-    "__ia2_FixedSizeEntryMover:\n" \
-    "pushq %rbp\n" \
-    "movq %rsp, %rbp\n" \
-    "pushq %rbx\n" \
-    "pushq %r12\n" \
-    "pushq %r13\n" \
-    "pushq %r14\n" \
-    "pushq %r15\n" \
-    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    "subq $8, %rsp\n" \
-    /* Set PKRU to the compartment's value */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Call wrapped function */ \
-    "call FixedSizeEntryMover\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    /* Free stack space used for stack args */ \
-    "addq $8, %rsp\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    /* Scrub non-essential regs */ \
-    "call __libia2_scrub_registers\n" \
-    /* Set PKRU to the caller's value */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffffc, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    "popq %r15\n" \
-    "popq %r14\n" \
-    "popq %r13\n" \
-    "popq %r12\n" \
-    "popq %rbx\n" \
-    "popq %rbp\n" \
-    /* Return to the caller */ \
-    "ret\n" \
-    ".size __ia2_FixedSizeEntryMover, .-__ia2_FixedSizeEntryMover\n" \
-    ".previous\n" \
-);
-#define IA2_DEFINE_WRAPPER_SearchGray \
-asm(\
-    /* Wrapper for SearchGray(): */ \
-    ".text\n" \
-    ".local __ia2_SearchGray\n" \
-    ".type __ia2_SearchGray, @function\n" \
-    "__ia2_SearchGray:\n" \
-    "pushq %rbp\n" \
-    "movq %rsp, %rbp\n" \
-    "pushq %rbx\n" \
-    "pushq %r12\n" \
-    "pushq %r13\n" \
-    "pushq %r14\n" \
-    "pushq %r15\n" \
-    ASSERT_PKRU(0xfffffffffffffffc) "\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    "subq $8, %rsp\n" \
-    /* Set PKRU to the compartment's value */ \
-    "movq %rcx, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rcx\n" \
-    "movq %r11, %rdx\n" \
-    /* Call wrapped function */ \
-    "call SearchGray\n" \
-    /* Set PKRU to the intermediate value to move arguments */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffff0, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    /* Free stack space used for stack args */ \
-    "addq $8, %rsp\n" \
-    /* Compute location to save old stack pointer (using r11) */ \
-    "mov ia2_stackptr_1@GOTTPOFF(%rip), %r11\n" \
-    /* Write the old stack pointer to memory */ \
-    "movq %rsp, %fs:(%r11)\n" \
-    /* Compute location to load new stack pointer (using r11) */ \
-    "mov ia2_stackptr_0@GOTTPOFF(%rip), %r11\n" \
-    /* Read the new stack pointer from memory */ \
-    "movq %fs:(%r11), %rsp\n" \
-    /* Scrub non-essential regs */ \
-    "call __libia2_scrub_registers\n" \
-    /* Set PKRU to the caller's value */ \
-    "movq %rax, %r10\n" \
-    "movq %rdx, %r11\n" \
-    "xorl %ecx, %ecx\n" \
-    "xorl %edx, %edx\n" \
-    "movl $0xfffffffc, %eax\n" \
-    "wrpkru\n" \
-    "movq %r10, %rax\n" \
-    "movq %r11, %rdx\n" \
-    "popq %r15\n" \
-    "popq %r14\n" \
-    "popq %r13\n" \
-    "popq %r12\n" \
-    "popq %rbx\n" \
-    "popq %rbp\n" \
-    /* Return to the caller */ \
-    "ret\n" \
-    ".size __ia2_SearchGray, .-__ia2_SearchGray\n" \
     ".previous\n" \
 );
 

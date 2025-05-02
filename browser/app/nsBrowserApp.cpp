@@ -4,6 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 extern "C" {
+  #define _GNU_SOURCE
+  #undef NDEBUG
+  #include <assert.h>
+
   #include <ia2.h>
 
 //   INIT_RUNTIME(1);
@@ -17,14 +21,24 @@ extern "C" {
 
 __attribute__((visibility("default"))) __thread void *ia2_stackptr_0[PAGE_SIZE / sizeof(void *)] __attribute__((aligned(4096)));
 
+__attribute__((visibility("default"))) void *ia2_init_stackptr;
+
 void *ia2_get_stackptr_1(void) {
     void *handle = dlopen("libxul.so", RTLD_NOW | RTLD_GLOBAL | RTLD_NOLOAD);
+    printf("ia2_get_stackptr_1: %s\n", dlerror());
     assert(handle);
-    void *res = dlsym(handle, "ia2_stackptr_1");
-    return res;
+    void **res = (void**)dlsym(handle, "ia2_stackptr_1");
+    ia2_init_stackptr = *res;
+    return *res;
 }
 
-#if 0
+void ia2_init_libxul(void) {
+    void *handle = dlopen("libxul.so", RTLD_NOW | RTLD_GLOBAL);
+    printf("ia2_init_libxul: %s\n", dlerror());
+    assert(handle);
+}
+
+#if 1
   /* Stores the stack pointer to return to after main() is called. */
   static void *main_sp __attribute__((used)) = 0;
 
@@ -37,6 +51,17 @@ void *ia2_get_stackptr_1(void) {
   #if defined(__x86_64__)
       "pushq %rbp\n"
       "movq %rsp, %rbp\n"
+
+      "push %rdx\n"
+      "push %rdi\n"
+      "push %rsi\n"
+      "push %rcx\n"
+      "call ia2_init_libxul\n"
+      "pop %rcx\n"
+      "pop %rsi\n"
+      "pop %rdi\n"
+      "pop %rdx\n"
+
       // Switch pkey to the appropriate compartment.
       "xor %ecx,%ecx\n"
       "mov %ecx,%edx\n"
@@ -45,7 +70,15 @@ void *ia2_get_stackptr_1(void) {
       // Save the old stack pointer in main_sp.
       "movq %rsp, main_sp(%rip)\n"
 
+      "push %rdx\n"
+      "push %rdi\n"
+      "push %rsi\n"
+      "push %rcx\n"
       "call ia2_get_stackptr_1\n"
+      "pop %rcx\n"
+      "pop %rsi\n"
+      "pop %rdi\n"
+      "pop %rdx\n"
       "movq %rax, %rsp\n"
 
       // Load the stack pointer for this compartment's stack.

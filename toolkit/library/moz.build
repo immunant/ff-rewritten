@@ -110,6 +110,23 @@ def Libxul(name, output_category=None):
     if CONFIG["OS_TARGET"] != "Android" and name == "xul-real":
         SYMBOLS_FILE = "../libxul.symbols"
 
+    LDFLAGS += [
+        "-pthread",
+        "-Wl,-z,now",
+        "-Wl,-z,relro",
+        "-Wl,-T/home/legare/IA2-Phase2/runtime/libia2/padding.ld",
+        "-Wl,--dynamic-list=/home/legare/IA2-Phase2/runtime/libia2/dynsym.syms",
+        "-Wl,--export-dynamic",
+        "-L/home/legare/IA2-Phase2/build/runtime/libia2",
+        "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+        "-L/home/legare/ff-rewritten",
+        "-Wl,--whole-archive",
+        "-llibia2",
+        "-Wl,--no-whole-archive",
+        "-lcallgates",
+        "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
+        "-ftls-model=global-dynamic",
+    ]
 
 # The real libxul definition is in ./build/moz.build, but we define a
 # xul library here such that # FINAL_LIBRARY = 'xul' refers to here, which

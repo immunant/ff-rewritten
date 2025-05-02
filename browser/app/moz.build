@@ -179,7 +179,8 @@ CXXFLAGS += [
     "-DIA2_ENABLE=1",
     # "-DIA2_ENABLE=0",
     "-DIA2_DEBUG=1",
-    "-DIA2_DEBUG_LOG=1"
+    "-DIA2_DEBUG_LOG=1",
+    "-ftls-model=initial-exec",
 ]
 
 LDFLAGS += [
@@ -199,7 +200,7 @@ LDFLAGS += [
     # "-Wl,--wrap=asprintf",
     # "-Wl,--wrap=vasprintf",
     "-Wl,--wrap=main",
-    "-Wl,--wrap=pthread_create",
+    # "-Wl,--wrap=pthread_create",
     "-pthread",
     "-Wl,-z,now",
     "-Wl,-z,relro",
@@ -211,6 +212,8 @@ LDFLAGS += [
     "-L/home/legare/ff-rewritten",
     "-llibia2",
     # "-lpartition-alloc",
-    "-lcallgates",
     "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
+    "-Wl,--export-dynamic-symbol=ia2_stackptr_0",
+    "-Wl,--trace-symbol=ia2_stackptr_0",
+    "-Wl,--version-script=/home/legare/ff-rewritten/browser/app/version.script",
 ]
