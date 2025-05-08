@@ -36,3 +36,8 @@ else:
 # Don't use the STL wrappers; we don't link with -lmozalloc, and it really
 # doesn't matter here anyway.
 DisableStlWrapping()
+
+LDFLAGS += [
+    "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+    "-lpartition-alloc",
+]

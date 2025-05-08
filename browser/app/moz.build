@@ -211,7 +211,7 @@ LDFLAGS += [
     "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
     "-L/home/legare/ff-rewritten",
     "-llibia2",
-    # "-lpartition-alloc",
+    "-lpartition-alloc",
     "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
     "-Wl,--export-dynamic-symbol=ia2_stackptr_0",
     "-Wl,--trace-symbol=ia2_stackptr_0",

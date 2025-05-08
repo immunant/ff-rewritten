@@ -6384,6 +6384,11 @@ bool Equals(const malloc_table_t& aTable1, const malloc_table_t& aTable2) {
   return memcmp(&aTable1, &aTable2, sizeof(malloc_table_t)) == 0;
 }
 
+// Declare IA2 allocation functions. 
+#define MALLOC_DECL(name, return_type, ...) \
+  extern "C" __attribute__((visibility("default"))) return_type __wrap_##name(ARGS_HELPER(TYPED_ARGS, ##__VA_ARGS__));
+#  include "malloc_decls.h"
+
 // Below is the malloc implementation overriding jemalloc and calling the
 // replacement functions if they exist.
 static ReplaceMallocBridge* gReplaceMallocBridge = nullptr;
@@ -6407,16 +6412,21 @@ static void init() {
   if (replace_init) {
     replace_init(&tempTable, &gReplaceMallocBridge);
   }
-#  ifdef MOZ_REPLACE_MALLOC_STATIC
-  if (Equals(tempTable, gDefaultMallocTable)) {
-    logalloc_init(&tempTable, &gReplaceMallocBridge);
-  }
-#    ifdef MOZ_DMD
-  if (Equals(tempTable, gDefaultMallocTable)) {
-    dmd_init(&tempTable, &gReplaceMallocBridge);
-  }
-#    endif
-#  endif
+// #  ifdef MOZ_REPLACE_MALLOC_STATIC
+//   if (Equals(tempTable, gDefaultMallocTable)) {
+//     logalloc_init(&tempTable, &gReplaceMallocBridge);
+//   }
+// #    ifdef MOZ_DMD
+//   if (Equals(tempTable, gDefaultMallocTable)) {
+//     dmd_init(&tempTable, &gReplaceMallocBridge);
+//   }
+// #    endif
+// #  endif
+
+#define MALLOC_FUNCS MALLOC_FUNCS_MALLOC_BASE
+#define MALLOC_DECL(name, ...) tempTable.name = __wrap_##name;
+#include "malloc_decls.h"
+
   if (!Equals(tempTable, gDefaultMallocTable)) {
     replace_malloc_init_funcs(&tempTable);
   }
