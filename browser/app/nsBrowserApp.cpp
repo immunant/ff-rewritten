@@ -34,7 +34,7 @@ void *ia2_get_stackptr_1(void) {
 
 void ia2_init_libxul(void) {
     void *handle = dlopen("libxul.so", RTLD_NOW | RTLD_GLOBAL);
-    printf("ia2_init_libxul: %s\n", dlerror());
+    // printf("ia2_init_libxul: %s\n", dlerror());
     assert(handle);
 }
 
