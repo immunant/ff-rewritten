@@ -27,5 +27,5 @@ if CONFIG["MOZ_WIDGET_TOOLKIT"]:
 # NB: gtest dir is included in toolkit/toolkit.build due to its dependency
 # on libxul.
 
-if CONFIG["MOZ_REPLACE_MALLOC"]:
-    DIRS += ["replace"]
+# if CONFIG["MOZ_REPLACE_MALLOC"]:
+#     DIRS += ["replace"]

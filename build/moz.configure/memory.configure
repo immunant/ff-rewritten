@@ -25,8 +25,8 @@ option(
 )
 
 
-set_config("MOZ_MEMORY", True, when="--enable-jemalloc")
-set_define("MOZ_MEMORY", True, when="--enable-jemalloc")
+# set_config("MOZ_MEMORY", True, when="--enable-jemalloc")
+# set_define("MOZ_MEMORY", True, when="--enable-jemalloc")
 
 
 @depends("--enable-jemalloc", moz_debug, win32_redist_dir)
