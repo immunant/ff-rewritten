@@ -29,67 +29,67 @@
 #  define MOZALLOC_EXPORT_NEW MFBT_API
 #endif
 
-MOZALLOC_EXPORT_NEW void* operator new(size_t size) noexcept(false) {
-  return moz_xmalloc(size);
-}
+// MOZALLOC_EXPORT_NEW void* operator new(size_t size) noexcept(false) {
+//   return moz_xmalloc(size);
+// }
 
-MOZALLOC_EXPORT_NEW void* operator new(size_t size,
-                                       const std::nothrow_t&) noexcept(true) {
-  return malloc_impl(size);
-}
+// MOZALLOC_EXPORT_NEW void* operator new(size_t size,
+//                                        const std::nothrow_t&) noexcept(true) {
+//   return malloc_impl(size);
+// }
 
-MOZALLOC_EXPORT_NEW void* operator new[](size_t size) noexcept(false) {
-  return moz_xmalloc(size);
-}
+// MOZALLOC_EXPORT_NEW void* operator new[](size_t size) noexcept(false) {
+//   return moz_xmalloc(size);
+// }
 
-// Inlining `new` like this is technically against C++ spec, but we crave perf.
-MOZALLOC_EXPORT_NEW void* operator new[](size_t size,
-                                         const std::nothrow_t&) noexcept(true) {
-#ifdef __GNUC__
-// GCC-14 codegen at -O2 causes false positive due to converting
-// `new A[n]` to `malloc(-1)` when `n > PTRDIFF_MAX/sizeof(A)`.
-// (See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85783, WONTFIX'd)
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Walloc-size-larger-than="
-#endif
+// // Inlining `new` like this is technically against C++ spec, but we crave perf.
+// MOZALLOC_EXPORT_NEW void* operator new[](size_t size,
+//                                          const std::nothrow_t&) noexcept(true) {
+// #ifdef __GNUC__
+// // GCC-14 codegen at -O2 causes false positive due to converting
+// // `new A[n]` to `malloc(-1)` when `n > PTRDIFF_MAX/sizeof(A)`.
+// // (See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85783, WONTFIX'd)
+// #  pragma GCC diagnostic push
+// #  pragma GCC diagnostic ignored "-Walloc-size-larger-than="
+// #endif
 
-  return malloc_impl(size);
+//   return malloc_impl(size);
 
-#ifdef __GNUC__
-#  pragma GCC diagnostic pop
-#endif
-}
+// #ifdef __GNUC__
+// #  pragma GCC diagnostic pop
+// #endif
+// }
 
-MOZALLOC_EXPORT_NEW void operator delete(void* ptr) noexcept(true) {
-  return free_impl(ptr);
-}
+// MOZALLOC_EXPORT_NEW void operator delete(void* ptr) noexcept(true) {
+//   return free_impl(ptr);
+// }
 
-MOZALLOC_EXPORT_NEW void operator delete(void* ptr,
-                                         const std::nothrow_t&) noexcept(true) {
-  return free_impl(ptr);
-}
+// MOZALLOC_EXPORT_NEW void operator delete(void* ptr,
+//                                          const std::nothrow_t&) noexcept(true) {
+//   return free_impl(ptr);
+// }
 
-MOZALLOC_EXPORT_NEW void operator delete[](void* ptr) noexcept(true) {
-  return free_impl(ptr);
-}
+// MOZALLOC_EXPORT_NEW void operator delete[](void* ptr) noexcept(true) {
+//   return free_impl(ptr);
+// }
 
-MOZALLOC_EXPORT_NEW void operator delete[](
-    void* ptr, const std::nothrow_t&) noexcept(true) {
-  return free_impl(ptr);
-}
+// MOZALLOC_EXPORT_NEW void operator delete[](
+//     void* ptr, const std::nothrow_t&) noexcept(true) {
+//   return free_impl(ptr);
+// }
 
-#if defined(XP_WIN)
-// We provide the global sized delete overloads unconditionally because the
-// MSVC runtime headers do, despite compiling with /Zc:sizedDealloc-
-MOZALLOC_EXPORT_NEW void operator delete(void* ptr,
-                                         size_t /*size*/) noexcept(true) {
-  return free_impl(ptr);
-}
+// #if defined(XP_WIN)
+// // We provide the global sized delete overloads unconditionally because the
+// // MSVC runtime headers do, despite compiling with /Zc:sizedDealloc-
+// MOZALLOC_EXPORT_NEW void operator delete(void* ptr,
+//                                          size_t /*size*/) noexcept(true) {
+//   return free_impl(ptr);
+// }
 
-MOZALLOC_EXPORT_NEW void operator delete[](void* ptr,
-                                           size_t /*size*/) noexcept(true) {
-  return free_impl(ptr);
-}
-#endif
+// MOZALLOC_EXPORT_NEW void operator delete[](void* ptr,
+//                                            size_t /*size*/) noexcept(true) {
+//   return free_impl(ptr);
+// }
+// #endif
 
 #endif /* mozilla_cxxalloc_h */
