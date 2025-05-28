@@ -111,6 +111,22 @@ def Libxul(name, output_category=None):
         SYMBOLS_FILE = "../libxul.symbols"
 
     LDFLAGS += [
+        "-Wl,--wrap=calloc",
+        "-Wl,--wrap=free",
+        "-Wl,--wrap=malloc",
+        "-Wl,--wrap=memalign",
+        "-Wl,--wrap=posix_memalign",
+        "-Wl,--wrap=pvalloc",
+        "-Wl,--wrap=realloc",
+        "-Wl,--wrap=valloc",
+        "-Wl,--wrap=malloc_usable_size",
+        "-Wl,--wrap=realpath",
+        "-Wl,--wrap=strdup",
+        "-Wl,--wrap=strndup",
+        "-Wl,--wrap=getcwd",
+        "-Wl,--wrap=asprintf",
+        "-Wl,--wrap=vasprintf",
+
         "-pthread",
         "-Wl,-z,now",
         "-Wl,-z,relro",
@@ -124,6 +140,7 @@ def Libxul(name, output_category=None):
         "-llibia2",
         "-Wl,--no-whole-archive",
         "-lcallgates",
+        "-lpartition-alloc",
         "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
         "-ftls-model=global-dynamic",
     ]
