@@ -27,6 +27,11 @@ extern "C" {
 using namespace mozilla::ipc;
 using namespace mozilla::gfx;
 
+extern "C" {
+  __attribute__((visibility("default"), noinline))
+  void __real_free(void*);
+}
+
 nsShmImage::nsShmImage(Display* aDisplay, Drawable aWindow, Visual* aVisual,
                        unsigned int aDepth)
     : mDisplay(aDisplay),
@@ -139,7 +144,7 @@ bool nsShmImage::InitExtension() {
   gUseShmPixmaps = shmReply->shared_pixmaps &&
                    shmReply->pixmap_format == XCB_IMAGE_FORMAT_Z_PIXMAP;
 
-  free(shmReply);
+  __real_free(shmReply);
 
   return true;
 }
@@ -210,7 +215,7 @@ bool nsShmImage::CreateImage(const IntSize& aSize) {
     NS_WARNING("Failed to attach MIT-SHM segment.");
     DestroyImage();
     gShmAvailable = false;
-    free(error);
+    __real_free(error);
     return false;
   }
 

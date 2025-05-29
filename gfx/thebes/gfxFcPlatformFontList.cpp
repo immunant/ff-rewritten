@@ -86,6 +86,11 @@ using namespace mozilla::intl;
 #define LOG_CMAPDATA_ENABLED() \
   MOZ_LOG_TEST(gfxPlatform::GetLog(eGfxLog_cmapdata), LogLevel::Debug)
 
+extern "C" {
+  __attribute__((visibility("default"), noinline))
+  void __real_free(void*);
+}
+
 static const FcChar8* ToFcChar8Ptr(const char* aStr) {
   return reinterpret_cast<const FcChar8*>(aStr);
 }
@@ -1828,7 +1833,11 @@ void gfxFcPlatformFontList::InitSharedFontListForPlatform() {
 
     char* s = (char*)FcNameUnparse(aPattern);
     nsAutoCString descriptor(s);
-    free(s);
+    // IA2 HACK: libfontconfig uses malloc and we can't shim it directly since
+    // it's a system library and is not built as part of the ff build process,
+    // so we need to deallocate through the real free instead of the partition-alloc
+    // free shim.
+    __real_free(s); 
 
     if (fcCharsetParseBug) {
       // Escape any leading space in charset to work around FcNameParse bug.
