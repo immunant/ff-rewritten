@@ -32,9 +32,8 @@
 #  ifdef _PR_NICE_PRIORITY_SCHEDULING
 #    undef _POSIX_THREAD_PRIORITY_SCHEDULING
 #    include <sys/resource.h>
-#    ifndef HAVE_GETTID
-#      define gettid() (syscall(SYS_gettid))
-#    endif
+     // IA2: Modified to always define gettid, see corresponding commit message for context.
+#    define gettid() (syscall(SYS_gettid))
 #  endif
 
 /*
