@@ -8,6 +8,8 @@
 
 #include "InterposerHelper.h"
 
+#include "ia2_allocator.h"
+
 // The interposers in this file cover all the functions used to access the
 // environment (getenv(), putenv(), setenv(), unsetenv() and clearenv()). They
 // all use the mutex below for synchronization to prevent races that caused
@@ -43,6 +45,10 @@ MFBT_API char* getenv(const char* name) {
 MFBT_API int putenv(char* string) {
   static const auto real_putenv = GET_REAL_SYMBOL(putenv);
 
+  // IA2: Environment variables may be accessed from other compartments, so they
+  // need to be on the shared heap.
+  string = shared_strdup(string);
+
   pthread_mutex_lock(&gEnvLock);
   int result = real_putenv(string);
   pthread_mutex_unlock(&gEnvLock);
@@ -51,6 +57,10 @@ MFBT_API int putenv(char* string) {
 
 MFBT_API int setenv(const char* name, const char* value, int replace) {
   static const auto real_setenv = GET_REAL_SYMBOL(setenv);
+
+  // IA2: Environment variables may be accessed from other compartments, so they
+  // need to be on the shared heap.
+  value = shared_strdup(value);
 
   pthread_mutex_lock(&gEnvLock);
   int result = real_setenv(name, value, replace);
