@@ -27,6 +27,8 @@
 #  include "nsJXLDecoder.h"
 #endif
 
+#include "ia2_allocator.h"
+
 namespace mozilla {
 
 using namespace gfx;
@@ -122,6 +124,7 @@ already_AddRefed<Decoder> DecoderFactory::GetDecoder(DecoderType aType,
                                                      RasterImage* aImage,
                                                      bool aIsRedecode) {
   RefPtr<Decoder> decoder;
+  void* shared;
 
   switch (aType) {
     case DecoderType::PNG:
@@ -133,7 +136,8 @@ already_AddRefed<Decoder> DecoderFactory::GetDecoder(DecoderType aType,
     case DecoderType::JPEG:
       // If we have all the data we don't want to waste cpu time doing
       // a progressive decode.
-      decoder = new nsJPEGDecoder(
+      shared = shared_malloc(sizeof(nsJPEGDecoder));
+      decoder = new (shared) nsJPEGDecoder(
           aImage, aIsRedecode ? Decoder::SEQUENTIAL : Decoder::PROGRESSIVE);
       break;
     case DecoderType::BMP:
