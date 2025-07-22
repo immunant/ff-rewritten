@@ -43,6 +43,8 @@ extern "C" {
 #include "iccjpeg.h"
 }
 
+#include "ia2_allocator.h"
+
 #if MOZ_BIG_ENDIAN()
 #  define MOZ_JCS_EXT_NATIVE_ENDIAN_XRGB JCS_EXT_XRGB
 #else
@@ -135,7 +137,7 @@ nsJPEGDecoder::~nsJPEGDecoder() {
   mInfo.src = nullptr;
   jpeg_destroy_decompress(&mInfo);
 
-  free(mBackBuffer);
+  shared_free(mBackBuffer);
   mBackBuffer = nullptr;
 
   delete[] mCMSLine;
@@ -685,11 +687,18 @@ void nsJPEGDecoder::NotifyDone() {
 WriteState nsJPEGDecoder::OutputScanlines() {
   auto result = mPipe.WritePixelBlocks<uint32_t>(
       [&](uint32_t* aPixelBlock, int32_t aBlockSize) {
-        JSAMPROW sampleRow = (JSAMPROW)(mCMSLine ? mCMSLine : aPixelBlock);
-        if (jpeg_read_scanlines(&mInfo, &sampleRow, 1) != 1) {
+        // IA2: Heap allocate the `sampleRow` pointer on the shared heap.
+        // Originally this was putting `sampleRow` on the stack and then passing
+        // a pointer to the value on the stack to libjpeg. This resulted in
+        // compartment violations when libjpeg tried to read the value on
+        // compartment 1's stack.
+        JSAMPROW *sampleRow = (JSAMPROW *)shared_malloc(sizeof(JSAMPROW));
+        *sampleRow = (JSAMPROW)(mCMSLine ? mCMSLine : aPixelBlock);
+        if (jpeg_read_scanlines(&mInfo, sampleRow, 1) != 1) {
           return std::make_tuple(/* aWritten */ 0,
                                  Some(WriteState::NEED_MORE_DATA));
         }
+        shared_free(sampleRow);
 
         switch (mInfo.out_color_space) {
           default:
@@ -914,7 +923,7 @@ fill_input_buffer_cpp(j_decompress_ptr jd) {
 
     // Round up to multiple of 256 bytes.
     const size_t roundup_buflen = ((new_backtrack_buflen + 255) >> 8) << 8;
-    JOCTET* buf = (JOCTET*)realloc(decoder->mBackBuffer, roundup_buflen);
+    JOCTET* buf = (JOCTET*)shared_realloc(decoder->mBackBuffer, roundup_buflen);
     // Check for OOM
     if (!buf) {
       decoder->mInfo.err->msg_code = JERR_OUT_OF_MEMORY;
