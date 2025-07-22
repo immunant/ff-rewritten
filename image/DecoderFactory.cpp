@@ -136,6 +136,8 @@ already_AddRefed<Decoder> DecoderFactory::GetDecoder(DecoderType aType,
     case DecoderType::JPEG:
       // If we have all the data we don't want to waste cpu time doing
       // a progressive decode.
+
+      // IA2 DEMO: Change this `shared_malloc` to `malloc`.
       shared = shared_malloc(sizeof(nsJPEGDecoder));
       decoder = new (shared) nsJPEGDecoder(
           aImage, aIsRedecode ? Decoder::SEQUENTIAL : Decoder::PROGRESSIVE);
@@ -437,7 +439,7 @@ already_AddRefed<Decoder> DecoderFactory::CreateAnonymousDecoder(
   }
 
   RefPtr<Decoder> decoder =
-      GetDecoder(aType, /* aImage = */ nullptr, /* aIsRedecode = */ false);
+      GetDecoder(aType, /* aImage = */ nullptr, /* aIsRedecode u= */ false);
   MOZ_ASSERT(decoder, "Should have a decoder now");
 
   // Initialize the decoder.
