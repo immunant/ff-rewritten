@@ -18,7 +18,8 @@
 #include "jpeglib.h"
 #include "jsamplecomp.h"
 
-#if defined(QUANT_1PASS_SUPPORTED) && BITS_IN_JSAMPLE != 16
+#if defined(QUANT_1PASS_SUPPORTED) && \
+    (BITS_IN_JSAMPLE != 16 || defined(D_LOSSLESS_SUPPORTED))
 
 
 /*
@@ -818,6 +819,12 @@ new_color_map_1_quant(j_decompress_ptr cinfo)
  * Module initialization routine for 1-pass color quantization.
  */
 
+#define STR2(x) #x
+#define STR(x) STR2(x)
+
+#pragma message("BITS_IN_JSAMPLE = " STR(BITS_IN_JSAMPLE))
+#pragma message("_jinit_1pass_quantizer = " STR(_jinit_1pass_quantizer))
+
 GLOBAL(void)
 _jinit_1pass_quantizer(j_decompress_ptr cinfo)
 {
@@ -825,10 +832,6 @@ _jinit_1pass_quantizer(j_decompress_ptr cinfo)
 
   if (cinfo->data_precision != BITS_IN_JSAMPLE)
     ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
-
-  /* Color quantization is not supported with lossless JPEG images */
-  if (cinfo->master->lossless)
-    ERREXIT(cinfo, JERR_NOTIMPL);
 
   cquantize = (my_cquantize_ptr)
     (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE,
@@ -861,4 +864,5 @@ _jinit_1pass_quantizer(j_decompress_ptr cinfo)
     alloc_fs_workspace(cinfo);
 }
 
-#endif /* defined(QUANT_1PASS_SUPPORTED) && BITS_IN_JSAMPLE != 16 */
+#endif /* defined(QUANT_1PASS_SUPPORTED) &&
+          (BITS_IN_JSAMPLE != 16 || defined(D_LOSSLESS_SUPPORTED)) */

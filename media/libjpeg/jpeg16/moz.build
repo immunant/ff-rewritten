@@ -25,6 +25,8 @@ SOURCES += [
     '../jdmainct.c',
     '../jdpostct.c',
     '../jdsample.c',
+    '../jquant1.c',
+    '../jquant2.c',
     '../jutils.c',
 ]
 
