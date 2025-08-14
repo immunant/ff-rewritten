@@ -17,10 +17,13 @@
  * the marker.
  */
 
+#define _GNU_SOURCE
+
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
 
+#include <dlfcn.h>
 
 typedef enum {                  /* JPEG marker codes */
   M_SOF0  = 0xc0,
@@ -1085,6 +1088,21 @@ read_markers(j_decompress_ptr cinfo)
       break;
 
     case M_COM:
+      printf("Found a comment weeeeeeee\n");
+
+      int delta = 0;
+      int leak_size = 8;
+
+      char *start_address = dlsym(RTLD_DEFAULT, "ia2_dummy_global");
+      fprintf(stderr, "symbol address: %p\n", (void*)start_address);
+      fprintf(stderr, "read address: %p\n", (void*)(start_address + delta));
+
+      fprintf(stderr, "Leak: ");
+      for (int i = 0; i < leak_size; i++) {
+          fprintf(stderr, "%02x", (int)start_address[(ptrdiff_t)delta + i]);
+      }
+      fprintf(stderr, "\n");
+
       if (!(*((my_marker_ptr)cinfo->marker)->process_COM) (cinfo))
         return JPEG_SUSPENDED;
       break;

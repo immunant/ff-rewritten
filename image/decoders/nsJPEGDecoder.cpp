@@ -15,6 +15,8 @@ extern "C" {
   #include <ia2_compartment_init.inc>
 
   __attribute__((visibility("default"))) __thread void *ia2_thread_init_stackptr;
+
+  __attribute__((visibility("default"))) uint32_t ia2_dummy_global = 0xaabbccdd;
 }
 
 #include "ImageLogging.h"  // Must appear first.
