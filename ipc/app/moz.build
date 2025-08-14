@@ -88,3 +88,8 @@ if CONFIG["CC_TYPE"] in ("clang", "gcc"):
 
 with Files("**"):
     BUG_COMPONENT = ("Core", "DOM: Content Processes")
+
+LDFLAGS += [
+    "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+    "-lpartition-alloc",
+]

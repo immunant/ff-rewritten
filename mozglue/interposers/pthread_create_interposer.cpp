@@ -14,6 +14,8 @@
 
 #include "InterposerHelper.h"
 
+#include <dlfcn.h>
+
 using mozilla::DebugOnly;
 
 struct SigAltStack {
@@ -85,19 +87,32 @@ void* set_alt_signal_stack_and_start(PthreadCreateParams* params) {
 }
 
 extern "C" {
+// __attribute__((weak))
+// __attribute__((visiblity("default"))) __thread void *ia2_stackptr_0;
+// __attribute__((weak)) void *init_stacks_and_setup_tls;
+// __attribute__((weak)) void *ia2_stackptr_for_pkru;
+
+// __attribute__((visibility("default")))
+// __attribute__((weak))
+// MFBT_API
+// int ia2_pthread_create(pthread_t* thread, const pthread_attr_t* attr,
+//                             void* (*start_routine)(void*), void* arg);
+
 // This interposer replaces libpthread's pthread_create() so that we can
 // inject an alternate signal stack in every new thread.
 MFBT_API int pthread_create(pthread_t* thread, const pthread_attr_t* attr,
                             void* (*start_routine)(void*), void* arg) {
-  static const auto real_pthread_create = GET_REAL_SYMBOL(pthread_create);
+  // static const auto real_pthread_create = GET_REAL_SYMBOL(ia2_pthread_create);
+  auto *symbol = (typeof(&pthread_create)) dlsym(RTLD_DEFAULT, "ia2_pthread_create");
 
   PthreadCreateParams* params =
       (PthreadCreateParams*)malloc(sizeof(PthreadCreateParams));
   params->start_routine = start_routine;
   params->arg = arg;
 
-  int result = real_pthread_create(
+  int result = symbol(
       thread, attr, (void* (*)(void*))set_alt_signal_stack_and_start, params);
+      // thread, attr, (void* (*)(void*))start_routine, arg);
 
   if (result != 0) {
     free(params);

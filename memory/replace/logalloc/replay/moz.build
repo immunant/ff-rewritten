@@ -86,3 +86,8 @@ OS_LIBS += CONFIG["DL_LIBS"]
 DisableStlWrapping()
 
 include("/mozglue/build/replace_malloc.mozbuild")
+
+LDFLAGS += [
+    "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+    "-lpartition-alloc",
+]

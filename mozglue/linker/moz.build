@@ -15,3 +15,10 @@ SOURCES += [
 Library("linker")
 
 FINAL_LIBRARY = "mozglue"
+
+LDFLAGS += [
+    "-L/home/legare/IA2-Phase2/build/runtime/libia2",
+    "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+    "-L/home/legare/ff-rewritten",
+    "-llibia2",
+]

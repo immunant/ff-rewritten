@@ -110,6 +110,40 @@ def Libxul(name, output_category=None):
     if CONFIG["OS_TARGET"] != "Android" and name == "xul-real":
         SYMBOLS_FILE = "../libxul.symbols"
 
+    LDFLAGS += [
+        "-Wl,--wrap=calloc",
+        "-Wl,--wrap=free",
+        "-Wl,--wrap=malloc",
+        "-Wl,--wrap=memalign",
+        "-Wl,--wrap=posix_memalign",
+        "-Wl,--wrap=pvalloc",
+        "-Wl,--wrap=realloc",
+        "-Wl,--wrap=valloc",
+        "-Wl,--wrap=malloc_usable_size",
+        "-Wl,--wrap=realpath",
+        "-Wl,--wrap=strdup",
+        "-Wl,--wrap=strndup",
+        "-Wl,--wrap=getcwd",
+        "-Wl,--wrap=asprintf",
+        "-Wl,--wrap=vasprintf",
+
+        "-pthread",
+        "-Wl,-z,now",
+        "-Wl,-z,relro",
+        "-Wl,-T/home/legare/IA2-Phase2/runtime/libia2/padding.ld",
+        "-Wl,--dynamic-list=/home/legare/IA2-Phase2/runtime/libia2/dynsym.syms",
+        "-Wl,--export-dynamic",
+        "-L/home/legare/IA2-Phase2/build/runtime/libia2",
+        "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+        "-L/home/legare/ff-rewritten",
+        "-Wl,--whole-archive",
+        "-llibia2",
+        "-Wl,--no-whole-archive",
+        "-lcallgates",
+        "-lpartition-alloc",
+        "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
+        "-ftls-model=global-dynamic",
+    ]
 
 # The real libxul definition is in ./build/moz.build, but we define a
 # xul library here such that # FINAL_LIBRARY = 'xul' refers to here, which
@@ -148,6 +182,11 @@ DIRS += [
 # is discarded when it comes first.
 USE_LIBS += [
     "js",
+]
+
+# add separate [compartmentalized] libjpeg
+USE_LIBS += [
+    "jpeg",
 ]
 
 USE_LIBS += [

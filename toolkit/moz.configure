@@ -259,8 +259,8 @@ def dmd(value):
         return True
 
 
-set_config("MOZ_DMD", dmd)
-set_define("MOZ_DMD", dmd)
+# set_config("MOZ_DMD", dmd)
+# set_define("MOZ_DMD", dmd)
 imply_option("--enable-profiling", dmd)
 imply_option("--enable-jemalloc", dmd, when=compile_environment)
 imply_option("--enable-replace-malloc", dmd, when=compile_environment)

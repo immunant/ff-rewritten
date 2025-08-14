@@ -74,7 +74,7 @@ void* js::GetNativeStackBaseImpl() {
   // /proc/ so that firefox can run in sandboxed environments where /proc may
   // not be mounted.
   if (gettid() == getpid()) {
-    void** pLibcStackEnd = (void**)dlsym(RTLD_DEFAULT, "__libc_stack_end");
+    void** pLibcStackEnd = (void**)dlsym(RTLD_DEFAULT, "ia2_init_stackptr");
 
     // If __libc_stack_end is not found, architecture specific frame pointer
     // hopping will need to be implemented.
@@ -90,31 +90,40 @@ void* js::GetNativeStackBaseImpl() {
     return stackBase;
   }
 
+  void** thread_stackptr = (void**)dlsym(RTLD_DEFAULT, "ia2_thread_init_stackptr");
+
+  if (!thread_stackptr) {
+    printf("ia2_thread_init_stackptr: %s\n", dlerror());
+    abort();
+  }
+
   // Non-main threads have the required info stored in memory, so no filesystem
   // calls are made.
-  pthread_t thread = pthread_self();
-  pthread_attr_t sattr;
-  pthread_attr_init(&sattr);
-  pthread_getattr_np(thread, &sattr);
+  // pthread_t thread = pthread_self();
+  // pthread_attr_t sattr;
+  // pthread_attr_init(&sattr);
+  // pthread_getattr_np(thread, &sattr);
 
   // stackBase will be the *lowest* address on all architectures.
-  void* stackBase = nullptr;
-  size_t stackSize = 0;
-  int rc = pthread_attr_getstack(&sattr, &stackBase, &stackSize);
-  if (rc) {
-    MOZ_CRASH(
-        "call to pthread_attr_getstack failed, unable to setup stack range for "
-        "JS");
-  }
-  MOZ_RELEASE_ASSERT(stackBase,
-                     "invalid stack base, unable to setup stack range for JS");
-  pthread_attr_destroy(&sattr);
+  void* stackBase = *thread_stackptr;
+  size_t stackSize = 16 * 1024 * 1024;  // 16MB
+  // int rc = pthread_attr_getstack(&sattr, &stackBase, &stackSize);
+  // if (rc) {
+  //   MOZ_CRASH(
+  //       "call to pthread_attr_getstack failed, unable to setup stack range for "
+  //       "JS");
+  // }
+  // MOZ_RELEASE_ASSERT(stackBase,
+  //                    "invalid stack base, unable to setup stack range for JS");
+  // pthread_attr_destroy(&sattr);
 
-#  if JS_STACK_GROWTH_DIRECTION > 0
+// #  if JS_STACK_GROWTH_DIRECTION > 0
+//   return stackBase;
+// #  else
+//   return static_cast<char*>(stackBase) + stackSize;
+// #  endif
+
   return stackBase;
-#  else
-  return static_cast<char*>(stackBase) + stackSize;
-#  endif
 }
 
 #elif defined(__wasi__)

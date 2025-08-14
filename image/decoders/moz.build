@@ -59,7 +59,33 @@ LOCAL_INCLUDES += CONFIG["SKIA_INCLUDES"]
 
 FINAL_LIBRARY = "xul"
 
-CXXFLAGS += ["-Werror=switch"]
+CXXFLAGS += [
+    "-Werror=switch",
+    "-include/home/legare/ff-rewritten/wrapper.h",
+    "-DIA2_ENABLE=1",
+    # "-DIA2_ENABLE=0",
+    "-DIA2_DEBUG=1",
+    "-DIA2_DEBUG_LOG=1"
+    "-fPIC",
+    "-ftls-model=global-dynamic",
+]
+
+LDFLAGS += [
+    "-pthread",
+    "-Wl,-z,now",
+    "-Wl,-z,relro",
+    "-Wl,-T/home/legare/IA2-Phase2/runtime/libia2/padding.ld",
+    "-Wl,--dynamic-list=/home/legare/IA2-Phase2/runtime/libia2/dynsym.syms",
+    "-Wl,--export-dynamic",
+    "-L/home/legare/IA2-Phase2/build/runtime/libia2",
+    "-L/home/legare/IA2-Phase2/build/runtime/partition-alloc",
+    "-L/home/legare/ff-rewritten",
+    "-llibia2",
+    # "-lpartition-alloc",
+    "-lcallgates",
+    "-Wl,@/home/legare/ff-rewritten/wrapper_1.ld",
+    "-ftls-model=global-dynamic",
+]
 
 # Add libFuzzer configuration directives
 include("/tools/fuzzing/libfuzzer-config.mozbuild")

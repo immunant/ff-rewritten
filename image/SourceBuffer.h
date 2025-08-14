@@ -22,6 +22,8 @@
 #include "mozilla/UniquePtr.h"
 #include "nsTArray.h"
 
+#include "ia2_allocator.h"
+
 class nsIInputStream;
 
 namespace mozilla {
@@ -380,10 +382,10 @@ class SourceBuffer final {
    public:
     explicit Chunk(size_t aCapacity) : mCapacity(aCapacity), mLength(0) {
       MOZ_ASSERT(aCapacity > 0, "Creating zero-capacity chunk");
-      mData = static_cast<char*>(malloc(mCapacity));
+      mData = static_cast<char*>(shared_malloc(mCapacity));
     }
 
-    ~Chunk() { free(mData); }
+    ~Chunk() { shared_free(mData); }
 
     Chunk(Chunk&& aOther)
         : mCapacity(aOther.mCapacity),

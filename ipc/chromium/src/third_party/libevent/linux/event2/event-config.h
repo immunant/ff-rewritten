@@ -31,7 +31,8 @@
 
 #ifdef HAVE_ARC4RANDOM
 /* Define to 1 if you have the `arc4random' function. */
-#define EVENT__HAVE_ARC4RANDOM 1
+// IA2: Modified to disable define, see corresponding commit message for context.
+// #define EVENT__HAVE_ARC4RANDOM 1
 #endif
 
 /* Define to 1 if you have the `arc4random_addrandom' function. */
@@ -39,7 +40,8 @@
 
 #ifdef HAVE_ARC4RANDOM_BUF
 /* Define to 1 if you have the `arc4random_buf' function. */
-#define EVENT__HAVE_ARC4RANDOM_BUF 1
+// IA2: Modified to disable define, see corresponding commit message for context.
+// #define EVENT__HAVE_ARC4RANDOM_BUF 1
 #endif
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */

@@ -5,3 +5,9 @@ MainProcessInit
 ChildProcessInit
 GeckoViewOpenWindow
 #endif
+
+ia2_stackptr_1
+ia2_compartment_destructor_1
+ia2_pthread_create
+ia2_thread_init_stackptr
+ia2_dummy_global

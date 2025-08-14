@@ -28,6 +28,11 @@
 
 #include "SurfacePipe.h"
 
+#include "ia2_allocator.h"
+
+// IA2: Helper to allow `UniquePtr` to free memory using `shared_free`.
+struct SharedFreePolicy { void operator()(void* p) { shared_free(p); } };
+
 namespace mozilla {
 namespace image {
 
@@ -112,7 +117,8 @@ class DownscalingFilter final : public SurfaceFilter {
     }
 
     // Allocate the buffer, which contains scanlines of the input image.
-    mRowBuffer.reset(new (fallible)
+    uint8_t *rowBuffer = (uint8_t*)shared_malloc(PaddedWidthInBytes(mInputSize.width));
+    mRowBuffer.reset(new (rowBuffer)
                          uint8_t[PaddedWidthInBytes(mInputSize.width)]);
     if (MOZ_UNLIKELY(!mRowBuffer)) {
       return NS_ERROR_OUT_OF_MEMORY;
@@ -291,7 +297,7 @@ class DownscalingFilter final : public SurfaceFilter {
                                    /// Computed from @mInputSize and
                                    /// the next filter's input size.
 
-  UniquePtr<uint8_t[]> mRowBuffer;  /// The buffer into which input is written.
+  UniquePtr<uint8_t[], SharedFreePolicy> mRowBuffer;  /// The buffer into which input is written.
   UniquePtr<uint8_t*[]> mWindow;    /// The last few rows which were written.
 
   gfx::ConvolutionFilter mXFilter;  /// The Lanczos filter in X.

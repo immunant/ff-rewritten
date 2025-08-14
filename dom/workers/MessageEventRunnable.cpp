@@ -87,8 +87,9 @@ bool MessageEventRunnable::WorkerRun(JSContext* aCx,
   MOZ_ASSERT(aWorkerPrivate->GlobalScope());
 
   // If the worker start shutting down, don't dispatch the message event.
-  if (NS_FAILED(
-          aWorkerPrivate->GlobalScope()->CheckCurrentGlobalCorrectness())) {
+  auto *scope = aWorkerPrivate->GlobalScope();
+  auto result = scope->CheckCurrentGlobalCorrectness();
+  if (NS_FAILED(result)) {
     return true;
   }
 

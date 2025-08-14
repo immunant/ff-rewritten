@@ -4,6 +4,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+extern "C" {
+  #include <ia2.h>
+
+  INIT_RUNTIME(1);
+
+  // This must be defined before including the following line
+  #define IA2_COMPARTMENT 1
+
+  #include <ia2_compartment_init.inc>
+
+  __attribute__((visibility("default"))) __thread void *ia2_thread_init_stackptr;
+
+  __attribute__((visibility("default"))) uint32_t ia2_dummy_global = 0xaabbccdd;
+}
+
 #include "ImageLogging.h"  // Must appear first.
 
 #include "nsJPEGDecoder.h"
@@ -29,6 +44,8 @@
 extern "C" {
 #include "iccjpeg.h"
 }
+
+#include "ia2_allocator.h"
 
 #if MOZ_BIG_ENDIAN()
 #  define MOZ_JCS_EXT_NATIVE_ENDIAN_XRGB JCS_EXT_XRGB
@@ -62,12 +79,14 @@ static qcms_profile* GetICCProfile(struct jpeg_decompress_struct& info) {
   return profile;
 }
 
-METHODDEF(void) init_source(j_decompress_ptr jd);
-METHODDEF(boolean) fill_input_buffer(j_decompress_ptr jd);
-METHODDEF(void) skip_input_data(j_decompress_ptr jd, long num_bytes);
-METHODDEF(void) term_source(j_decompress_ptr jd);
-METHODDEF(void) my_error_exit(j_common_ptr cinfo);
-METHODDEF(void) progress_monitor(j_common_ptr info);
+extern "C" {
+  __attribute__((used)) METHODDEF(void) init_source_cpp(j_decompress_ptr jd);
+  __attribute__((used)) METHODDEF(boolean) fill_input_buffer_cpp(j_decompress_ptr jd);
+  __attribute__((used)) METHODDEF(void) skip_input_data_cpp(j_decompress_ptr jd, long num_bytes);
+  __attribute__((used)) METHODDEF(void) term_source_cpp(j_decompress_ptr jd);
+  __attribute__((used)) METHODDEF(void) my_error_exit(j_common_ptr cinfo);
+  __attribute__((used)) METHODDEF(void) progress_monitor(j_common_ptr info);
+}
 
 // Normal JFIF markers can't have more bytes than this.
 #define MAX_JPEG_MARKER_LENGTH (((uint32_t)1 << 16) - 1)
@@ -82,11 +101,11 @@ nsJPEGDecoder::nsJPEGDecoder(RasterImage* aImage,
       mProfileLength(0),
       mCMSLine(nullptr),
       mDecodeStyle(aDecodeStyle) {
-  this->mErr.pub.error_exit = nullptr;
-  this->mErr.pub.emit_message = nullptr;
-  this->mErr.pub.output_message = nullptr;
-  this->mErr.pub.format_message = nullptr;
-  this->mErr.pub.reset_error_mgr = nullptr;
+  this->mErr.pub.error_exit = (typeof(this->mErr.pub.error_exit)) { NULL };
+  this->mErr.pub.emit_message = (typeof(this->mErr.pub.emit_message)) { NULL };
+  this->mErr.pub.output_message = (typeof(this->mErr.pub.output_message)) { NULL };
+  this->mErr.pub.format_message = (typeof(this->mErr.pub.format_message)) { NULL };
+  this->mErr.pub.reset_error_mgr = (typeof(this->mErr.pub.reset_error_mgr)) { NULL };
   this->mErr.pub.msg_code = 0;
   this->mErr.pub.trace_level = 0;
   this->mErr.pub.num_warnings = 0;
@@ -120,7 +139,7 @@ nsJPEGDecoder::~nsJPEGDecoder() {
   mInfo.src = nullptr;
   jpeg_destroy_decompress(&mInfo);
 
-  free(mBackBuffer);
+  shared_free(mBackBuffer);
   mBackBuffer = nullptr;
 
   delete[] mCMSLine;
@@ -138,7 +157,7 @@ nsresult nsJPEGDecoder::InitInternal() {
   // We set up the normal JPEG error routines, then override error_exit.
   mInfo.err = jpeg_std_error(&mErr.pub);
   //   mInfo.err = jpeg_std_error(&mErr.pub);
-  mErr.pub.error_exit = my_error_exit;
+  mErr.pub.error_exit = IA2_FN(my_error_exit);
   // Establish the setjmp return context for my_error_exit to use.
   if (setjmp(mErr.setjmp_buffer)) {
     // If we get here, the JPEG code has signaled an error, and initialization
@@ -154,16 +173,16 @@ nsresult nsJPEGDecoder::InitInternal() {
   // Step 2: specify data source (eg, a file)
 
   // Setup callback functions.
-  mSourceMgr.init_source = init_source;
-  mSourceMgr.fill_input_buffer = fill_input_buffer;
-  mSourceMgr.skip_input_data = skip_input_data;
+  mSourceMgr.init_source = IA2_FN(init_source_cpp);
+  mSourceMgr.fill_input_buffer = IA2_FN(fill_input_buffer_cpp);
+  mSourceMgr.skip_input_data = IA2_FN(skip_input_data_cpp);
   mSourceMgr.resync_to_restart = jpeg_resync_to_restart;
-  mSourceMgr.term_source = term_source;
+  mSourceMgr.term_source = IA2_FN(term_source_cpp);
 
   mInfo.mem->max_memory_to_use = static_cast<long>(
       std::min<size_t>(SurfaceCache::MaximumCapacity(), LONG_MAX));
 
-  mProgressMgr.progress_monitor = &progress_monitor;
+  mProgressMgr.progress_monitor = IA2_FN(progress_monitor);
   mInfo.progress = &mProgressMgr;
 
   // Record app markers for ICC data
@@ -670,11 +689,18 @@ void nsJPEGDecoder::NotifyDone() {
 WriteState nsJPEGDecoder::OutputScanlines() {
   auto result = mPipe.WritePixelBlocks<uint32_t>(
       [&](uint32_t* aPixelBlock, int32_t aBlockSize) {
-        JSAMPROW sampleRow = (JSAMPROW)(mCMSLine ? mCMSLine : aPixelBlock);
-        if (jpeg_read_scanlines(&mInfo, &sampleRow, 1) != 1) {
+        // IA2: Heap allocate the `sampleRow` pointer on the shared heap.
+        // Originally this was putting `sampleRow` on the stack and then passing
+        // a pointer to the value on the stack to libjpeg. This resulted in
+        // compartment violations when libjpeg tried to read the value on
+        // compartment 1's stack.
+        JSAMPROW *sampleRow = (JSAMPROW *)shared_malloc(sizeof(JSAMPROW));
+        *sampleRow = (JSAMPROW)(mCMSLine ? mCMSLine : aPixelBlock);
+        if (jpeg_read_scanlines(&mInfo, sampleRow, 1) != 1) {
           return std::make_tuple(/* aWritten */ 0,
                                  Some(WriteState::NEED_MORE_DATA));
         }
+        shared_free(sampleRow);
 
         switch (mInfo.out_color_space) {
           default:
@@ -761,7 +787,7 @@ static void progress_monitor(j_common_ptr info) {
  * multiple buffers in an attempt to avoid unnecessary copying of input data.
  *
  * (A simpler scheme is possible: It's much easier to use only a single
- * buffer; when fill_input_buffer() is called, move any unconsumed data
+ * buffer; when fill_input_buffer_cpp() is called, move any unconsumed data
  * (beyond the current pointer/count) down to the beginning of this buffer and
  * then load new data into the remaining buffer space.  This approach requires
  * a little more data copying but is far easier to get right.)
@@ -792,11 +818,11 @@ static void progress_monitor(j_common_ptr info) {
 /* data source manager method
         Initialize source.  This is called by jpeg_read_header() before any
         data is actually read.  May leave
-        bytes_in_buffer set to 0 (in which case a fill_input_buffer() call
+        bytes_in_buffer set to 0 (in which case a fill_input_buffer_cpp() call
         will occur immediately).
 */
 METHODDEF(void)
-init_source(j_decompress_ptr jd) {}
+init_source_cpp(j_decompress_ptr jd) {}
 
 /******************************************************************************/
 /* data source manager method
@@ -810,13 +836,13 @@ init_source(j_decompress_ptr jd) {}
         A zero or negative skip count should be treated as a no-op.
 */
 METHODDEF(void)
-skip_input_data(j_decompress_ptr jd, long num_bytes) {
+skip_input_data_cpp(j_decompress_ptr jd, long num_bytes) {
   struct jpeg_source_mgr* src = jd->src;
   nsJPEGDecoder* decoder = (nsJPEGDecoder*)(jd->client_data);
 
   if (num_bytes > (long)src->bytes_in_buffer) {
     // Can't skip it all right now until we get more data from
-    // network stream. Set things up so that fill_input_buffer
+    // network stream. Set things up so that fill_input_buffer_cpp
     // will skip remaining amount.
     decoder->mBytesToSkip = (size_t)num_bytes - src->bytes_in_buffer;
     src->next_input_byte += src->bytes_in_buffer;
@@ -843,7 +869,7 @@ skip_input_data(j_decompress_ptr jd, long num_bytes) {
         suspension is desired.
 */
 METHODDEF(boolean)
-fill_input_buffer(j_decompress_ptr jd) {
+fill_input_buffer_cpp(j_decompress_ptr jd) {
   struct jpeg_source_mgr* src = jd->src;
   nsJPEGDecoder* decoder = (nsJPEGDecoder*)(jd->client_data);
 
@@ -899,7 +925,7 @@ fill_input_buffer(j_decompress_ptr jd) {
 
     // Round up to multiple of 256 bytes.
     const size_t roundup_buflen = ((new_backtrack_buflen + 255) >> 8) << 8;
-    JOCTET* buf = (JOCTET*)realloc(decoder->mBackBuffer, roundup_buflen);
+    JOCTET* buf = (JOCTET*)shared_realloc(decoder->mBackBuffer, roundup_buflen);
     // Check for OOM
     if (!buf) {
       decoder->mInfo.err->msg_code = JERR_OUT_OF_MEMORY;
@@ -939,7 +965,7 @@ fill_input_buffer(j_decompress_ptr jd) {
  * jpeg_abort() or jpeg_destroy().
  */
 METHODDEF(void)
-term_source(j_decompress_ptr jd) {
+term_source_cpp(j_decompress_ptr jd) {
   nsJPEGDecoder* decoder = (nsJPEGDecoder*)(jd->client_data);
 
   // This function shouldn't be called if we ran into an error we didn't
@@ -1001,3 +1027,9 @@ static void cmyk_convert_bgra(uint32_t* aInput, uint32_t* aOutput,
     input += 4;
   }
 }
+IA2_DEFINE_WRAPPER(fill_input_buffer_cpp)
+IA2_DEFINE_WRAPPER(init_source_cpp)
+IA2_DEFINE_WRAPPER(my_error_exit)
+IA2_DEFINE_WRAPPER(progress_monitor)
+IA2_DEFINE_WRAPPER(skip_input_data_cpp)
+IA2_DEFINE_WRAPPER(term_source_cpp)

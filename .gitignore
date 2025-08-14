@@ -50,7 +50,6 @@ ID
 /.clang-tidy
 /.clangd
 /.mozconfig*
-/mozconfig*
 /.moz-fast-forward
 /.moz-vendoring
 /old-configure
@@ -362,3 +361,5 @@ toolkit/crashreporter/minidump-analyzer/analyzer-test/target/
 
 # Ignore mozperftest artifacts folder
 /artifacts/
+third_party/ia2/liblibia2.a
+libcallgates.so
